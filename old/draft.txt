@@ -1,0 +1,23 @@
+The corrections to the paper would be as follows:
+
+Abstract
+
+Rewrite motivations of the study/research:
+    clustering phenomenon
+    money saved in explicit communications models
+    
+Better organization of model description    
+
+Explanation of clustering behaviour
+    possible math    
+    factors
+    theory
+    reason
+
+Experiments
+    set up
+    graphs
+    results
+    explain
+
+Conclusion
