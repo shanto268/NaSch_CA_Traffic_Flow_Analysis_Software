@@ -214,3 +214,30 @@ Average of Mean cluster size is 5.538209255533198 for crit_dens_oppo
 Average of Number of clusters is 1.272635814889336 for crit_dens_oppo
 Average of Time period of clusters is 13.173913043478262 for crit_dens_oppo
 Average of Mean cluster size is 5.435112107623318 for crit_dens_aware
+Average of Mean cluster size is 5.025380710659898 for low_dens_oppo
+Average of Number of clusters is 1.0 for low_dens_oppo
+Average of Time period of clusters is 6.2075471698113205 for low_dens_oppo
+Average of Mean cluster size is 5.3352855051244505 for low_dens_aware
+Average of Number of clusters is 1.0 for low_dens_aware
+Average of Time period of clusters is 11.692307692307692 for low_dens_aware
+Average of Mean cluster size is 0 for low_dens_base
+Average of Number of clusters is 0 for low_dens_base
+Average of Time period of clusters is 0 for low_dens_base
+Average of Mean cluster size is 5.538209255533198 for crit_dens_oppo
+Average of Number of clusters is 1.272635814889336 for crit_dens_oppo
+Average of Time period of clusters is 13.173913043478262 for crit_dens_oppo
+Average of Mean cluster size is 5.435112107623318 for crit_dens_aware
+Average of Number of clusters is 1.4896860986547085 for crit_dens_aware
+Average of Time period of clusters is 28.972972972972972 for crit_dens_aware
+Average of Mean cluster size is 5.931862745098039 for crit_dens_base
+Average of Number of clusters is 1.280392156862745 for crit_dens_base
+Average of Time period of clusters is 16.56140350877193 for crit_dens_base
+Average of Mean cluster size is 9.613376712328769 for high_dens_oppo
+Average of Number of clusters is 4.465068493150685 for high_dens_oppo
+Average of Time period of clusters is 161.0 for high_dens_oppo
+Average of Mean cluster size is 9.862931893687707 for high_dens_aware
+Average of Number of clusters is 4.880398671096345 for high_dens_aware
+Average of Time period of clusters is 1203.0 for high_dens_aware
+Average of Mean cluster size is 9.538081395348838 for high_dens_base
+Average of Number of clusters is 5.157807308970099 for high_dens_base
+Average of Time period of clusters is 1203.0 for high_dens_base

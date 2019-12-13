@@ -1,7 +1,6 @@
 import pygame
-import os
 
-class SimulationManager:
+class SimulationManager: 
     def __init__(self, road, trafficGenerator, updateFrame):
         self.road = road
         self.trafficGenerator = trafficGenerator
@@ -12,35 +11,32 @@ class SimulationManager:
         self.running = True
         self.stepsMade = 0
 
-    def update(self, dt): #updates traffic input and road
+    def update(self, dt): #updates the traffic input and the car-road interplay
         self.acc += dt * self.timeFactor
         limit = 0
         if self.acc >= self.updateFrame:
             self.acc = self.acc % (self.updateFrame + 0)
-            self.makeStep()
+            self.makeStep_constant_density()  #comment this for increasing density
+           # self.makeStep_increasing_density()  #uncomment this for increasing density
 
-    def makeSteps(self, steps):
-        for x in range(steps): self.makeStep()
+    def makeSteps(self, steps): #makes multiple steps
+        for x in range(steps): self.makeStep_constant_density()  #comment this for increasing density
+     #   for x in range(steps): self.makeStep_increasing_density()  #uncomment this for increasing density
         
-      
-    #THIS IS CODE FOR FIXED DENSITY!!
-    def makeStep(self): 
+    def makeStep_constant_density(self):  #for constant density
         if self.stepsMade == 0:
-            self.trafficGenerator.generate(self.road) #TG 
+            self.trafficGenerator.generate(self.road) #generates traffic
         self.road.update(); 
         self.stepsMade += 1
-    """
-    
-    #THIS IS CODE FOR INCREASING DENSITY!!        
-    def makeStep(self): 
+        
+    def makeStep_increasing_density(self): #for increasing density
         if self.stepsMade == 0:
-            self.trafficGenerator.generate(self.road) #TG 
-        if self.stepsMade >=100 and (self.stepsMade % 100) == 1 : #og
-     #   if self.stepsMade >=105 and (self.stepsMade % 105) == 1 :
+            self.trafficGenerator.generate(self.road) #generates traffic
+        if self.stepsMade >=100 and (self.stepsMade % 100) == 1 : #increases density every 100 updates
             self.trafficGenerator.generate(self.road)
         self.road.update(); 
         self.stepsMade += 1    
-    """
+
     def processKey(self, key):
         {
             pygame.K_ESCAPE: self.__exit,
@@ -56,17 +52,15 @@ class SimulationManager:
 
     def __exit(self): 
         self.running = False
-      #  file1 = open("cluster_info.txt", "a+")
-      #  file1.write(str(self.road.clarr))
-      #  file1.close()
-      #  os.system('python plot.py') #executes plot.py
         
     def __pauseSwitch(self):
         self.timeFactor, self.prevTimeFactor = self.prevTimeFactor, self.timeFactor
     def __speedUp(self): self.timeFactor = min(8.0, self.timeFactor*2)
     def __speedDown(self): self.timeFactor = max(1/8, self.timeFactor/2)
     def __oneStepForward(self):
-        if self.isStopped(): self.makeStep()
+        if self.isStopped(): 
+            self.makeStep_constant_density()  #comment this for increasing density
+        #   self.makeStep_increasing_density()  #uncomment this for increasing density
         else: print("Can't make step: simulation is running")
     def __manyStepsForward(self, steps):
         def manySteps():

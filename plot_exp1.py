@@ -5,7 +5,7 @@ Experiment 1 plot
 from matplotlib.ticker import StrMethodFormatter
 import matplotlib.pyplot as plt
 import numpy as np
-import csv
+import csv 
 
 
 def plot1(fname):
