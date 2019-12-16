@@ -3,9 +3,7 @@ import random
 import sys
 from simulation.speedLimits import *
 from simulation.trafficGenerators import *
-#from simulationManager import SimulationManager
-#from infoDisplayer import *
-#from density import *
+#import front_end as fe
 
 #avpercent = sys.argv[1]
 
@@ -16,12 +14,12 @@ updateFrame = 500 #default = 500, fast = 10 , nice 500
 
 seed = None
 
+#data = fe.arr
+  
 lanes = 3
 length = 100
 
-#trafficGenerator = SimpleTrafficGenerator(10)
 trafficGenerator = TrafficGenerator(10) #density 0.08= 24, 0.2 = 60, 0.6 = 180     #if 10 then that means increase system density linearly
-#trafficGenerator = GaussianTrafficGenerator(15,25) #Needs A LOT OF WORK!
 speedLimits = []
 
 maxSpeed = 5

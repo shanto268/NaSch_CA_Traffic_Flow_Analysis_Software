@@ -1,9 +1,16 @@
-#important library
+#important libraries
 from tkinter import *
+import os
+#import sys, simulation.road, simulation.speedLimits, simulation.car, representation, config.case, simulation.trafficGenerators
 
 c1 = True
 tot_sim_time = 1500
 sim_time_update = 100
+arr = [] #stores all info
+cmd1 = "cd /Users/ttumuon/muonSC8/sas/Python_new/"
+cmd = "ls "
+cmd2 = "python nagel.py config.case"
+
 
 #key down functions:
 def click():
@@ -16,8 +23,10 @@ def click():
     else:
         nsim = tot_sim_time
         nsim_update = sim_time_update
-        
-    
+   # arr.append(nlanes, ncars, avpercent, nsim, nsim_update)
+    os.chdir(r"/Users/ttumuon/muonSC8/sas/Python_new/")
+    os.system(cmd)
+    os.system(cmd2)
    # l1 = Label(window, text=str(int(etext1)+int(etext2)),bg="grey", fg="black", font="none 12").grid(row=5,column=0,sticky=W)
                 
 def close():

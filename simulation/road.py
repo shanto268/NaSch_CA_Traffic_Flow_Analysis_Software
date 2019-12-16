@@ -9,6 +9,8 @@ import numpy as np
 
 #changes made in inbounds and simulationmanager --> problem in update x and pos[0] function conditions.. dead when coincide and glides
 
+c1 = 12
+
 class Road:
     
     def __init__(self, lanesCount, length, speedLimits):

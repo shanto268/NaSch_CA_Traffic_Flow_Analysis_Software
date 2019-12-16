@@ -1,0 +1,35 @@
+Front end simulations deals with two things:
+
+    i) Setting up the sim case (i.e. trafficGenerator.py, case.py, simulationManager.py)
+    ii) Setting up the different AV models 
+
+Variables in sim:
+
+    1) Steady state
+    2) Increasing density
+    3) AV models
+    4) Road geometry
+    5) Car color?
+    6) Advanced models: setting up traffic lights, speed breakers and bottlenecks 
+
+Purpose of the GUI:
+    
+    Take input from the user to start the custom simulation. After simulation is over, create the analysis graphs 
+
+User inputs:
+    1) all vars needed for sim
+    2) directory needed for saving raw data and analysis plots 
+    
+Note for myself:
+    > Need to make directory general in plotter files and the GUI
+
+Plan for the front end:
+
+> Take inputs for case.py from the GUI
+> Save all the user input parameters as var in the gui.py code
+> alter all the python code with the user input parameters using the read, replace and write methods.
+    >> make sure to start the python codes from default mode 
+> run the sim case after taking the inputs
+    >> change nagel.py/simulationManager.py to make sure that all the altered code is set back to default after the simulation is over
+        >>> use comments in nagel.py to store all the default/changed values to do it
+> 
