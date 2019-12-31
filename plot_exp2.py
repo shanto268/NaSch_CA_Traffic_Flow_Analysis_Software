@@ -20,8 +20,8 @@ def plot1(fname):
         new_nn = fname.split('/')
         fn = new_nn[3]
         nn = fn.split('.')
-        fr = str(nn[0]) + '.txt'
-        
+    #    fr = str(nn[0]) + '.txt'
+        """
         #dnewdata = "0.0, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "
         dnewdata = "dnew line"
         with open(fname, 'r') as f:
@@ -47,7 +47,7 @@ def plot1(fname):
         with open(fr, "w+") as f:     #fr change
                 f.write("0.0, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  \n" + a)
         
-        
+        """
         density = []
         flow = []
         updates = []
@@ -117,14 +117,14 @@ def plot1(fname):
         plt.xlabel("RV density")
         plt.ylabel("RV flow")
         plt.title("Fundamental Diagram: RV")  
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv-1"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(densityav, flowav, s= 1)
         plt.xlabel("AV density")
         plt.ylabel("AV flow")
         plt.title("Fundamental Diagram: AV") 
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-1"+str(nn[0])+".png")
         plt.show()
         
         
@@ -177,7 +177,7 @@ def plot1(fname):
         plt.xlabel('density')
         plt.ylabel('flow')
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-fit"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-fit-1"+str(nn[0])+".png")
         plt.show()
         
         #print("[x_critical  y_max  free_flow_v  wave_speed]")
@@ -188,7 +188,7 @@ def plot1(fname):
         plt.xlabel('density')
         plt.ylabel('flow')
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-tri"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-tri-1"+str(nn[0])+".png")
         plt.show()
         FD_arr.append(xd)
         FD_arr.append( piecewise_linear(xd, *p)) 
@@ -221,7 +221,7 @@ def plot1(fname):
         plt.gca().set_xlim([0,max(densityrv)+0.05])
         plt.gca().set_ylim([0, max(flowrv) + 0.05])
         plt.title('RV Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv-2"+str(nn[0])+".png")
         plt.show()
         
         FD_RV_arr.append(xdrv)
@@ -250,7 +250,7 @@ def plot1(fname):
         plt.gca().set_xlim([0,max(densityav)+0.05])
         plt.gca().set_ylim([0, max(flowav) + 0.05])
         plt.title('AV Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-2"+str(nn[0])+".png")
         plt.show()
     
         FD_AV_arr.append(xdav)
@@ -267,9 +267,18 @@ def plot1(fname):
         plt.xlim(0,1)
         plt.legend()
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-rv"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-rv-2"+str(nn[0])+".png")
         plt.show()
         
+        plt.scatter(density, flow, c='r', s=1, marker = "x", label='AV')  
+        plt.scatter(densityrv, flowrv, c='b', s=1, marker = "o", label='RV')  
+        plt.scatter(densityav, flowav, c='g', s=1, marker = ".", label='Overall')  
+        plt.ylim(0, 0.7)
+        plt.xlim(0,1)
+        plt.legend(loc='upper right')
+        plt.title('Fundamental diagram: ')
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-rv-data"+str(nn[0])+".png")
+        plt.show()
         
         return FD_arr, FD_RV_arr, FD_AV_arr, params
          

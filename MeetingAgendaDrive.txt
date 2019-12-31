@@ -1,0 +1,60 @@
+Meeting Agenda:
+>>> rewrite clustering section 
+>>> rewrite flux section
+>>> rewrite conclusion
+>>> P(AV-AV) analysis: 
+definition: freq / freqtot ; freq = running total number of time an AV is front of another AV , freqtot = running total number of times a car is in front of
+observation: reaches equilibrium in all systems
+rate of convergence interpretation
+>>> analysis:
+experiment 2:
+fds comparable
+fluctuation in type aware smallest
+AVs better in oppo and aware
+P(AV-AV) similar for base and aware (0.08), oppo has 0.1 and different trend
+bad fit for overall fd (need to fix)
+Conclusion: not much impact on overall traffic flow
+oBSERVATION: 
+at time period 1000 (one third occupation rate of road) : P(AV-AV) started to stabilize for all cases 
+experiment 1:
+low density:
+zero clusters for base
+comparable size for oppo and aware
+fd better for base than oppo than aware (code fault?) —> modelling explanation
+aware less transient
+crit density:
+aware more  clusters and less transient than others
+base scenario also shows considerable clustering
+p(AV-AV) trend depends on initial conditions and equilibrium establishes
+Conclusion: 
+aware leads to stronger clustering effects because
+lower transiency (time distribution greater)
+phenomenon stronger at lower densities as more mobility for AV to follow another AV
+———————————————————————————————————-
+  AV 4 5	|	|	|	|	|	|HV	|	|	|	
+———————————————————————————————————-
+        5 5	|	|	|	|	|	|AV	|	|	|	
+———————————————————————————————————-
+In the situation presented above, in the type aware case the AV would switch lanes leading to greater clustering where a type indifferent AV would not. Such 
+phenomenon can only occur if a) such spaces are available (low density) and b) incentive to trail AV exitsts
+higher number of overall clustering
+higher numbers of distinct clusters
+clustering effects most prominent at lower densities
+clustering not random (base scenario evidence)
+clustering cause:
+opportunistic behaviour 
+frequency of jam waves (direct correlation as seen through density)
+availability of space (if clustered will stay clustered at low space availabilty)
+opportunistic and type aware behaviour similar except for lane change dynamics where there are cases where type aware models are incentivized to change lanes where opportunistic models are not
+>>> combined plot for experiment 1 and experiment 2 —> ideas from Dr. Li
+>>> address changes according to comments
+sensitivity analysis: not important for now
+explanation and justification of AV behavior
+Reviewer 1 comment 1
+circular trajectories (if done then the lane sizes will be different or not ?) 
+
+Dr. Li work:
+>>> writing: paper, theorem and assumption differentiate, change to Physica A template
+>>> sim re-run: P(headways) for all 4 types of headways
+>>> math model: analysis of 4 car scenario  game theory stability equilibrium
+>>> think: explanation of everything and coherent argument/build up

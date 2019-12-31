@@ -17,11 +17,15 @@ Purpose of the GUI:
     Take input from the user to start the custom simulation. After simulation is over, create the analysis graphs 
 
 User inputs:
+  
     1) all vars needed for sim
     2) directory needed for saving raw data and analysis plots 
+    3) directory needed for config, base and simulation sub branches
     
 Note for myself:
+
     > Need to make directory general in plotter files and the GUI
+    > updates input to the simManager    
 
 Plan for the front end:
 
@@ -32,4 +36,6 @@ Plan for the front end:
 > run the sim case after taking the inputs
     >> change nagel.py/simulationManager.py to make sure that all the altered code is set back to default after the simulation is over
         >>> use comments in nagel.py to store all the default/changed values to do it
-> 
+> Make an executable for the code
+> Before running make sure to let the user set up the directories through a different GUI
+> Make sure sim ends in pygame module 
