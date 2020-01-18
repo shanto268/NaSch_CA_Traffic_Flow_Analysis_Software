@@ -1,3 +1,5 @@
+# comment/uncomment for different experiment
+
 import pygame
 
 class SimulationManager: 

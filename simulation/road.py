@@ -1,4 +1,4 @@
-
+#change made in maxSpeed
 import simulation.speedLimits, random
 from functools import reduce
 from simulation.car import Car
@@ -10,6 +10,7 @@ import numpy as np
 #changes made in inbounds and simulationmanager --> problem in update x and pos[0] function conditions.. dead when coincide and glides
 
 c1 = 12
+maxSpeed = 3    #change maxSpeed for exp1
 
 class Road:
     
@@ -109,8 +110,8 @@ class Road:
                             self.freqAV = 0
                         else:            
                             self.freqAV = self.numer / self.denom
-                        print("freq: " + str(self.numer))
-                        print("freqtot: " + str(self.denom))
+                    #    print("freq: " + str(self.numer))
+                    #    print("freqtot: " + str(self.denom))
                       #  print("moving at: "+str(newPos))
 
         self.flipLanes()            
@@ -382,7 +383,7 @@ class Road:
         return self.loopfix((pos[0]+1, pos[1]))
     
     def d2n(self, pos):
-        v = min(5, self.dton(pos))
+        v = min(maxSpeed, self.dton(pos))
         return v
     
     """
@@ -390,6 +391,7 @@ class Road:
         #for aware case ---> loop case
         return 1000
     """
+    
     def getMaxSpeedAt(self, pos):
         v = min(self.getSpeedLimitAt(pos), self.distanceToNextThing(pos))
         return v #compares the distance to the next thing and the speedlimit to return the smaller value as max speed
@@ -473,6 +475,7 @@ class Road:
             return False
         return pos[0] >= 0 and pos[1] >= 0 and pos[0] < self.getLength() and pos[1] < self.getLanesCount()
     """
+ 
     def inBounds(self, pos):
       # print(self.inBounds)   #constraints movement of vehicle to these chosen parameters
 #        if self.updates != 0 and (self.updates % 100) == 0: #important for looping and refreshing

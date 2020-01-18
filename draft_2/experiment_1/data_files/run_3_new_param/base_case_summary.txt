@@ -1,0 +1,13 @@
+Average of Mean cluster size is 4.0 for low_dens_base
+Average of Number of clusters is 1.0 for low_dens_base
+Average of Time period of clusters is 2.4285714285714284 for low_dens_base
+
+
+Average of Mean cluster size is 4.865333333333333 for crit_dens_base
+Average of Number of clusters is 1.168 for crit_dens_base
+Average of Time period of clusters is 6.666666666666667 for crit_dens_base
+
+
+Average of Mean cluster size is 9.040665557404322 for high_dens_base
+Average of Number of clusters is 4.983361064891847 for high_dens_base
+Average of Time period of clusters is 1201.0 for high_dens_base

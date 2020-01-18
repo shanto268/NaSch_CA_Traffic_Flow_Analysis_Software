@@ -1,0 +1,21 @@
+# Draft related:
+Redefine opportunistic and neighbor
+opportunistic --> lane change and gap seeking
+neighbor awareness --> car following
+analytical insgiht --> look at percolation theory for opportunistic 
+
+# Reading:
+percolation and connected vehicle paper  //Sometime during the week
+
+# Email work:
+description of research to Dr.Li  //Later tonight
+
+# Results update:
+Upload new data to overleaf  //Later tonight
+
+# Github update:
+Github						//Later tonight
+
+# Programming work:        //Later tonight
+Simulate constant density for 1000 updates every 0.1 density    
+Plot survival time graph

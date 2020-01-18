@@ -412,5 +412,8 @@ name7 = "draft_2/experiment_1/data_files/high_dens_oppo.txt"
 name8 = "draft_2/experiment_1/data_files/high_dens_aware.txt"
 name9 = "draft_2/experiment_1/data_files/high_dens_base.txt"
 
+namei = "draft_2/experiment_1/data_files/mid_dens_oppo.txt"
+nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
+nameiii = "draft_2/experiment_1/data_files/mid_dens_base.txt"
 
 plotter(name1,name2,name3,name4,name5,name6,name7,name8,name9)    

@@ -8,11 +8,12 @@ from fpdf import FPDF
 import glob
 
 def png2pdf(nm):
-    drt = "draft_2/experiment_1/figures/" + nm + "/"
-    ext = "experiment_1_combined_plots_" + drt.split("/")[3] + ".pdf"    
-    print(ext)
+    drt = "/Users/sshanto/techmrt/Python_new/draft_2/experiment_1/figures/" + nm + "/"
+    ext = "experiment_1_combined_plots_" + drt.split("/")[6] + ".pdf"    
+    #print(ext)
 
     l = glob.glob(drt+"*.png")
+    print(drt+"*.png\n")
     
     pdf = FPDF()
     
@@ -26,16 +27,17 @@ def png2pdf(nm):
         print(image)
         pdf.add_page()
         pdf.image(image,x,y,w,h)
-    drt = "draft_2/experiment_1/figures/" + str(nm)+ "/"
+    drt =  str(nm)+ "/"
     pdf.output(drt+ext, "F")
-   # print(drt+ext)
-    print("Done!\n")
+    #print(drt+ext)
+    #print("Done!\n")
 
 
-f = glob.glob("draft_2/experiment_1/figures/*")
+f = glob.glob("/Users/sshanto/techmrt/Python_new/draft_2/experiment_1/figures/*")
 
 for i in f:
-    t = i.split("\\")[1]
+    t = i.split("\\")[0]
+   # print(t)
     png2pdf(t)
 
 g = glob.glob("draft_2/experiment_2/figures/*") 

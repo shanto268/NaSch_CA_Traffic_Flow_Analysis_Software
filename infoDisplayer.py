@@ -1,3 +1,5 @@
+#Only change name
+
 import pygame
 import matplotlib.pyplot as plt
 import numpy as np
@@ -78,15 +80,16 @@ class InfoDisplayer():
         text.append("Density: {:0.3f}".format(density))
         #text.append("Density: {:0.3f}".format(newdensity))
        # text.append("Lane changes: " + str(numlanechng))
-        if trigpoint == 1:
-            text.append("Control status: on" )
-        else:
-            text.append("Control status: off" )
+      #  if trigpoint == 1:
+      #      text.append("Control status: on" )
+      #  else:
+      #      text.append("Control status: off" )
         text.append('')
         text.append(self.keysInfo)
-        text.append("                                                                                                                               Made with the support and guidance of Dr. Jia Li")
-        text.append("                                                                                                                               By Sadman Ahmed Shanto, Undergraduate Researcher")
-        text.append("                                                                                                                Texas Tech Multidisciplinary Research in Transportation(TechMRT)")
+        xs = " " 
+        text.append(str(328*xs) + " Made with the support and guidance of Dr. Jia Li")
+        text.append(str(316*xs) + "  By Sadman Ahmed Shanto, Undergraduate Researcher")
+        text.append(str(298*xs) + " Texas Tech Multidisciplinary Research in Transportation(TechMRT)")
         self.text = text
         self.renderLabels()
         
@@ -125,9 +128,12 @@ class InfoDisplayer():
         nameb = "draft_2/experiment_2/data_files/fd_aware.txt"
         namec = "draft_2/experiment_2/data_files/fd_base.txt"
         
-        file1 = open(name7,"a+") 
+        namei = "draft_2/experiment_1/data_files/mid_dens_oppo.txt"
+        nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
+        nameiii = "draft_2/experiment_1/data_files/mid_dens_base.txt"
+        
+        file1 = open(nameiii,"a+") 
     #    filea = open("cluster_info_unaware.txt", "a+")
-  
     #    filea.write(str(updates) + ", " + str(self.road.clarr) + "\n")               
         file1.write(str(density) + ", " + str(flow) + ","  + str(updates)  + ", "  + str(densityrv)  + ", "   + str(flowrv)  + ", "  + str(densityav)  + ", " + str(flowav)  + ", "   + str(cluster) + ", " + str(avgclus) + ", " + str(freq) + "\n")
 

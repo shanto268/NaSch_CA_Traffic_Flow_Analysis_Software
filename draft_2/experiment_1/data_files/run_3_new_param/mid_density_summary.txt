@@ -1,0 +1,12 @@
+Average of Mean cluster size is 7.240141430948418 for mid_dens_oppo
+Average of Number of clusters is 3.7479201331114806 for mid_dens_oppo
+Average of Time period of clusters is 1201.0 for mid_dens_oppo
+
+Average of Mean cluster size is 7.411346633416459 for mid_dens_aware
+Average of Number of clusters is 3.564422277639235 for mid_dens_aware
+Average of Time period of clusters is 1202.0 for mid_dens_aware
+
+Average of Mean cluster size is 6.983067993366501 for mid_dens_base
+Average of Number of clusters is 3.6202321724709785 for mid_dens_base
+Average of Time period of clusters is 1205.0 for mid_dens_base
+

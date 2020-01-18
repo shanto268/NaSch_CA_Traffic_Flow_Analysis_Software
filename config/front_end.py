@@ -16,11 +16,11 @@ tot_sim_time = 1500
 sim_time_update = 100
 arr = [] #stores all info
 
-base_dir = "/Users/ttumuon/muonSC8/sas/Python_new/"
+base_dir = "/Users/sshanto/techmrt/Python_new/"
 cmd1 = "cd " + base_dir
 cmd = "ls "
 cmd2 = "python nagel.py config.case"
-chdir1 = r"/Users/ttumuon/muonSC8/sas/Python_new/"
+chdir1 = r"/Users/sshanto/techmrt/Python_new/"
 
 #key down functions:
 
@@ -103,7 +103,7 @@ window.configure(background="snow3")
 
 
 #Entering pictures
-background_image = PhotoImage(file="/Users/ttumuon/muonSC8/sas/Python_new/paper_draft/draft/fd1.png")
+background_image = PhotoImage(file="/Users/sshanto/techmrt/Python_new/paper_draft/draft/fd1.png")
 
  
 #create label
