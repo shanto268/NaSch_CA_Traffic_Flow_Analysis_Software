@@ -6,9 +6,9 @@ class Car:
     #LOOK INTO UPDATE X CODES --> UPDATE LANE --> ROAD.PY
     laneChangeProbability = 0
     slowDownProbability = 0
-    lanetotup = []
-    lanetotdown = []
+    lanetotup = []    #saves all the lane changes --> sum returns total number of lane changes
     L0 = []
+    laneAv =  []      #saves all av lane changes --> sum returns av total number of lane changes
     
     def __init__(self, road, pos, velocity = 0, vtype = 0, seen = False):   #track function that updates velocity and use that as vtype
         self.velocity = velocity
@@ -19,6 +19,8 @@ class Car:
         self.time = 0
         self.lanechngup = 0
         self.lanechngdwn = 0
+        self.lanechngavup = 0
+        self.lanechngavdwn = 0
         self.lanechngL0 = 0
         self.contspeed = 3
         self.contprop = 30
@@ -52,11 +54,16 @@ class Car:
     def lanecountup(self):
         self.lanechngup += 1
         Car.lanetotup.append(self.lanechngup)
-        
-    
+        if self.vtype == 2:
+            self.lanechngavup += 1
+            Car.laneAv.append(self.lanechngavup)
+            
     def lanecountdwn(self):
         self.lanechngdwn += 1
         Car.lanetotup.append(self.lanechngdwn)
+        if self.vtype == 2:
+            self.lanechngavdwn += 1
+            Car.laneAv.append(self.lanechngavdwn)
        
     def lanecountL0(self):
         self.lanechngL0 += 1
@@ -183,6 +190,9 @@ class Car:
     ''' end code '''
     def feedlaneroadpy(self):
         return sum(Car.lanetotup)
+    
+    def feedav(self):
+        return sum(Car.laneAv)
     
     def feedlaneroadLO(self):
         return sum(Car.L0)

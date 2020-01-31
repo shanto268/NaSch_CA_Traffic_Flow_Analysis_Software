@@ -1,0 +1,6 @@
+Average of Mean cluster size is 11.033622974963178 for high_dens_aware
+Average of Number of clusters is 5.3343151693667155 for high_dens_aware
+Average of Time period of clusters is 678.0 for high_dens_aware
+Average of Mean cluster size is 8.91902798232695 for high_dens_base
+Average of Number of clusters is 5.38438880706922 for high_dens_base
+Average of Time period of clusters is 678.0 for high_dens_base

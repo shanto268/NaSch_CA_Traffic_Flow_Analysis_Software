@@ -14,7 +14,9 @@ if len(sys.argv) != 2: #number of arguments
     print("Usage: python pyTraffic.py module_with_config")
     exit()
 
-config = importlib.import_module(sys.argv[1]) #sys.argv[1] = e.g. .case or .trafficlight
+#config = importlib.import_module(sys.argv[1]) #sys.argv[1] = e.g. .case or .trafficlight
+config = importlib.import_module('config.case') #sys.argv[1] = e.g. .case or .trafficlight
+
 
 random.seed(config.seed) #this too
 pygame.init()

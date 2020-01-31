@@ -10,7 +10,8 @@ import numpy as np
 #changes made in inbounds and simulationmanager --> problem in update x and pos[0] function conditions.. dead when coincide and glides
 
 c1 = 12
-maxSpeed = 3    #change maxSpeed for exp1
+maxSpeed = 4    #change maxSpeed for exp1 (3 for base, 5 for aware, 4 for oppo)
+time_period = 100
 
 class Road:
     
@@ -28,6 +29,8 @@ class Road:
         self.count = 1
         self.clunum = 0
         self.lanechange = 0
+        self.rvlane = 0
+        self.avlane = 0
         self.contspeed = 3.5
         self.contprop = 30
         self.tick = 0
@@ -65,6 +68,7 @@ class Road:
         self.cluster_count = 0 #counts the number of lane formations
         self.clusterform_size = [] #keeps the size of clusters
         self.triggerbin = 0
+        self.cluster_num_car = 0 #number of cars in cluster
         self.avpercent = 18    #case: AV   12 -  20%    9 - 15% ; 18 - 30%  ; 30 - 50%;  45 - 75%  
         
         
@@ -78,7 +82,7 @@ class Road:
                     if self.inBounds(newPos): #returns  true #newpos[0] = position on x: x_i + v  #newpos[1]: lane number
                         self.updatedLanes[newPos[1]][newPos[0]] = entity
                         self.lanechange = self.lanechangenum(entity.feedlaneroadpy())
-                        self.L0c = self.lanechangenum(entity.feedlaneroadLO())
+                      #  self.L0c = self.lanechangenum(entity.feedlaneroadLO())
                         self.numer += entity.freq
                         self.denom += entity.freqtot
                         if self.denom == 0:
@@ -102,8 +106,10 @@ class Road:
                     if self.inBounds(newPos):
                         self.updatedLanes[newPos[1]][newPos[0]-self.getLength()] = entity 
                      #   print(entity)
-                        self.lanechange = self.lanechangenum(entity.feedlaneroadpy())
-                        self.L0c = self.lanechangenum(entity.feedlaneroadLO())
+                        self.lanechange = self.lanechangenum(entity.feedlaneroadpy()) #total number of lane changes
+                        self.avlane = self.lanechangenum(entity.feedav()) #total number of av lane change
+                        self.rvlane = self.lanechange - self.avlane #total number of av lane change
+                   #     self.L0c = self.lanechangenum(entity.feedlaneroadLO())
                         self.numer += entity.freq
                         self.denom += entity.freqtot
                         if self.denom == 0:
@@ -143,7 +149,7 @@ class Road:
    #     print(self.avg)    
    #     print("update: " + str(self.updates))
   #      print("")
-    def lanechangenum(self, num):        
+    def lanechangenum(self, num): 
         return num
     
     '''
@@ -466,16 +472,19 @@ class Road:
     def loopinbounds(self, pos):
         return pos[0] >= 0 and pos[1] >= 0 and pos[0] >= self.getLength() and pos[1] < self.getLanesCount()    
         #   Altered code above ^ 
+    
+    
+    """ FOR INCREASING DENSITY """
     """
     def inBounds(self, pos):
       # print(self.inBounds)   #constraints movement of vehicle to these chosen parameters
-      
        #           **************************LOOK HERE: the following should be commented for same density levels!!!****************
-        if self.updates != 0 and (self.updates % 100) == 0: #important for looping and refreshing
+        if self.updates != 0 and (self.updates % time_period) == 0: #important for looping and refreshing
             return False
         return pos[0] >= 0 and pos[1] >= 0 and pos[0] < self.getLength() and pos[1] < self.getLanesCount()
     """
- 
+    #THE CODE BELOW IS FOR STEADY STATE
+    
     def inBounds(self, pos):
       # print(self.inBounds)   #constraints movement of vehicle to these chosen parameters
 #        if self.updates != 0 and (self.updates % 100) == 0: #important for looping and refreshing
@@ -647,6 +656,7 @@ class Road:
         MC.append([])
         u = 0
         count = 0
+        car_clus = 0
         for i in range(len(avs_x)):
             j=i+1
             if j < len(avs_x) and (avs_x[j] - avs_x[i]) <= gap:
@@ -663,8 +673,11 @@ class Road:
             if len(arr) >= cluster_thresh:
                 self.clusterform_size.append((len(arr),self.updates))
                 new_cl.append(len(arr))
+                car_clus += len(arr) #sas new add 2020
                 count+=1
         
+        self.cluster_num_car = car_clus
+        print(self.cluster_num_car)
         self.clunum = count        
         new = self.clusterform_size
         clstr = []

@@ -2,6 +2,8 @@
 
 import pygame
 
+time_period = 100 
+
 class SimulationManager: 
     def __init__(self, road, trafficGenerator, updateFrame):
         self.road = road
@@ -19,26 +21,26 @@ class SimulationManager:
         if self.acc >= self.updateFrame:
             self.acc = self.acc % (self.updateFrame + 0)
             self.makeStep_constant_density()  #comment this for increasing density
-           # self.makeStep_increasing_density()  #uncomment this for increasing density
+          #  self.makeStep_increasing_density()  #uncomment this for increasing density
 
     def makeSteps(self, steps): #makes multiple steps
         for x in range(steps): self.makeStep_constant_density()  #comment this for increasing density
-     #   for x in range(steps): self.makeStep_increasing_density()  #uncomment this for increasing density
+      #  for x in range(steps): self.makeStep_increasing_density()  #uncomment this for increasing density
         
     def makeStep_constant_density(self):  #for constant density
         if self.stepsMade == 0:
             self.trafficGenerator.generate(self.road) #generates traffic
         self.road.update(); 
         self.stepsMade += 1
-        
+    """     
     def makeStep_increasing_density(self): #for increasing density
         if self.stepsMade == 0:
             self.trafficGenerator.generate(self.road) #generates traffic
-        if self.stepsMade >=100 and (self.stepsMade % 100) == 1 : #increases density every 100 updates
+        if self.stepsMade >= time_period and (self.stepsMade % time_period) == 1 : #increases density every 100 updates
             self.trafficGenerator.generate(self.road)
         self.road.update(); 
         self.stepsMade += 1    
-
+    """
     def processKey(self, key):
         {
             pygame.K_ESCAPE: self.__exit,
@@ -62,7 +64,7 @@ class SimulationManager:
     def __oneStepForward(self):
         if self.isStopped(): 
             self.makeStep_constant_density()  #comment this for increasing density
-        #   self.makeStep_increasing_density()  #uncomment this for increasing density
+         #  self.makeStep_increasing_density()  #uncomment this for increasing density
         else: print("Can't make step: simulation is running")
     def __manyStepsForward(self, steps):
         def manySteps():

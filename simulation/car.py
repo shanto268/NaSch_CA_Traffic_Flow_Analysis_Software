@@ -1,4 +1,4 @@
-""" Control Case """
+#AWARE
 
 import random
 
@@ -8,6 +8,7 @@ class Car:
     slowDownProbability = 0
     lanetotup = []
     lanetotdown = []
+    laneAv =  []
     L0 = []
     
     def __init__(self, road, pos, velocity = 0, vtype = 0, seen = False):   #track function that updates velocity and use that as vtype
@@ -19,6 +20,8 @@ class Car:
         self.time = 0
         self.lanechngup = 0
         self.lanechngdwn = 0
+        self.lanechngavup = 0
+        self.lanechngavdwn = 0
         self.lanechngL0 = 0
         self.contspeed = 3
         self.contprop = 30
@@ -45,18 +48,24 @@ class Car:
     def updateLane(self):
         self.prevPos = self.pos
         if self.vtype == 1: Car.laneChangeProbability = 0.4 
-        else: Car.laneChangeProbability = 0.4
+        else: Car.laneChangeProbability = 0
         self.updatelanelogic()
         return self.pos    
     
     def lanecountup(self):
         self.lanechngup += 1
         Car.lanetotup.append(self.lanechngup)
+        if self.vtype == 2:
+            self.lanechngavup += 1
+            Car.laneAv.append(self.lanechngavup)
         
     
     def lanecountdwn(self):
         self.lanechngdwn += 1
         Car.lanetotup.append(self.lanechngdwn)
+        if self.vtype == 2:
+            self.lanechngavdwn += 1
+            Car.laneAv.append(self.lanechngavdwn)
        
     def lanecountL0(self):
         self.lanechngL0 += 1
@@ -81,7 +90,7 @@ class Car:
     def dynamicupdateLane(self):
         self.prevPos = self.pos
         if self.vtype == 1: Car.laneChangeProbability = 0.4 
-        else: Car.laneChangeProbability = 0.4
+        else: Car.laneChangeProbability = 0
         if True: #dedicated case
       #  if self.trigger1() and self.trigger2():  #dynamic case
      #   if self.trigger2():  #dynamic case
@@ -184,12 +193,14 @@ class Car:
     def feedlaneroadpy(self):
         return sum(Car.lanetotup)
     
+    def feedav(self):
+        return sum(Car.laneAv)
+    
     def feedlaneroadLO(self):
         return sum(Car.L0)
     
     def _updateX(self):
         self.velocity = self.calcNewVelocity()
-
         if self.velocity > 0 and random.random() <= Car.slowDownProbability:
             self.velocity -= 1
 
@@ -202,17 +213,17 @@ class Car:
      #   print(self.vlead(self.pos))      
     #    print(self.road.ncvtype(self.pos))
         if self.vtype == 1: Car.slowDownProbability = 0.4  
-        else: Car.slowDownProbability = 0.4
+        else: Car.slowDownProbability = 0
         if self.pos[0] < (self.road.getLength() - 5) and self.pos[0] >= 0:
             self.velocity = self.calcNewVelocity()
             self.cluster()   # need to use distancetonextthing
-            if self.velocity >= 3: #any car max speed 4 
-                self.velocity = 3
+            if self.velocity >= 3 and self.vtype == 1: #RV max speed 3 and MAX SPEED ALLOWED IS 5
+                self.velocity = 3                                                                  # LOOOK HEREEEE   """ changed """           
+                                                                # LOOOK HEREEEE   """ changed """ 
             if self.velocity > 0 and random.random() <= Car.slowDownProbability:
                 self.velocity -= 1
             self.pos = self.pos[0] + self.velocity, self.pos[1]  
            # print("inner case")
-           
         elif self.pos[0] < self.road.getLength() and self.pos[0] >= (self.road.getLength() - 5):
             self.velocity = self.newvelocity()
             self.cluster_loop()    #need to use d2n
@@ -220,12 +231,8 @@ class Car:
                 self.velocity -= 1
             if (self.pos[0] + self.velocity) >= self.road.getLength():
                 self.pos = (self.pos[0] + self.velocity) % self.road.getLength(), self.pos[1]
-            #    print("loop")
             else:
                 self.pos = self.pos[0] + self.velocity, self.pos[1] 
-              #  print("outer inner")
-           # print(self.pos[0])
-   
         return self.pos    
     '''    
         self.velocity = self.calcNewVelocity()
@@ -243,13 +250,13 @@ class Car:
                     self.pos = self.pos[0] + velocity, self.pos[1]                    
         return self.pos
     '''
-    def newvelocity(self): 
-        return min(self.velocity + 1, self.road.d2n(self.pos), self.v1leadcopy(self.pos)) #regular v (M2)
-       # return min(self.velocity + 1, self.road.d2n(self.pos), self.v1lead(self.pos)) # M1
+    def newvelocity(self):                                                        # LOOOK HEREEEE   """ changed """
+       # return min(self.velocity + 1, self.road.d2n(self.pos), self.v1leadcopy(self.pos)) #unaware v 
+        return min(self.velocity + 1, self.road.d2n(self.pos), self.v1lead(self.pos)) # type aware
 
-    def calcNewVelocity(self):
-        return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2leadcopy(self.pos)) #regular v  (M2)
-       # return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2lead(self.pos)) # M1
+    def calcNewVelocity(self):                                                        # LOOOK HEREEEE   """ changed """
+      #  return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2leadcopy(self.pos)) #unaware v
+        return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2lead(self.pos)) # type aware
     
     
     def v2lead(self, pos): #regular case
@@ -270,7 +277,7 @@ class Car:
     def v1lead(self, pos):  #looping boundary case
         if self.vtype == 1: #RV
             self.freqtot += 1
-            return 3
+            return 3                                                    
         elif self.vtype == 2: #AV
             if self.road.ncvtype1(self.pos) == 1: #AV - RV -->
                 self.freqtot += 1
@@ -318,11 +325,20 @@ class Car:
     
     def willingToChangeDown(self):
         return self.road.possibleLaneChangeDown(self.pos) and self.__willingToChangeLane(self.pos[1], self.pos[1] + 1)
-    #regular 
+     
 
-    def __willingToChangeLane(self, sourceLane, destLane):                           
-        srcLaneSpeed =  self.road.getMaxSpeedAt( (self.pos[0], sourceLane) )  #gets max speed at sourcelane
-        destLaneSpeed =  self.road.getMaxSpeedAt( (self.pos[0], destLane) )#gets max speed at destlane
+    def __willingToChangeLane(self, sourceLane, destLane):                             # LOOOK HEREEEE   """ changed """
+                           #regular
+   #     srcLaneSpeed =  self.road.getMaxSpeedAt( (self.pos[0], sourceLane) )  #gets max speed at sourcelane
+   #     destLaneSpeed =  self.road.getMaxSpeedAt( (self.pos[0], destLane) )#gets max speed at destlane  
+                                                         # type aware --> 
+        if self.pos[0] < (self.road.getLength() - 5) and self.pos[0] >= 0:
+            srcLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], sourceLane) ), self.v2lead((self.pos[0],self.pos[1]))  ) #gets max speed at sourcelane
+            destLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], destLane) ), self.v2lead((self.pos[0],self.pos[1])) ) 
+        elif self.pos[0] < self.road.getLength() and self.pos[0] >= (self.road.getLength() - 5):  #loop
+            srcLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], sourceLane) ), self.v1lead((self.pos[0],self.pos[1]))  ) #gets max speed at sourcelane
+            destLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], destLane) ), self.v1lead((self.pos[0],self.pos[1])) ) 
+                                                        # type aware --> end                                                                                                
         if destLaneSpeed <= srcLaneSpeed: return False #no incentive
         prevCar = self.road.findPrevCar( (self.pos[0], destLane) )  #NaSch lane change rule safety
         if prevCar == None: return True #safety check 1
@@ -371,6 +387,29 @@ class Car:
             distanceToPrevCar = self.pos[0] - prevCar.pos[0] #safety check 1
             return distanceToPrevCar > prevCar.velocity #True only if no collision
     
+
+
+
+
+"""    if self.pos[0] < (self.road.getLength() - 5) and self.pos[0] >= 0: #regular
+            srcLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], sourceLane) ), self.v2lead((self.pos[0],self.pos[1]))  ) #gets max speed at sourcelane
+            destLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], destLane) ), self.v2lead((self.pos[0],self.pos[1])) ) 
+        elif self.pos[0] < self.road.getLength() and self.pos[0] >= (self.road.getLength() - 5):  #loop
+            srcLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], sourceLane) ), self.v1lead((self.pos[0],self.pos[1]))  ) #gets max speed at sourcelane
+            destLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], destLane) ), self.v1lead((self.pos[0],self.pos[1])) ) """       
+        
+    
+"""
+
     
     
+"""    
     
+"""    if self.pos[0] < (self.road.getLength() - 5) and self.pos[0] >= 0:
+            srcLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], sourceLane) ), self.v2lead((self.pos[0],self.pos[1]))  ) #gets max speed at sourcelane
+            destLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], destLane) ), self.v2lead((self.pos[0],self.pos[1])) ) 
+        elif self.pos[0] < self.road.getLength() and self.pos[0] >= (self.road.getLength() - 5):  #loop
+            srcLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], sourceLane) ), self.v1lead((self.pos[0],self.pos[1]))  ) #gets max speed at sourcelane
+            destLaneSpeed = min( self.road.getMaxSpeedAt( (self.pos[0], destLane) ), self.v1lead((self.pos[0],self.pos[1])) ) """       
+"""
+"""

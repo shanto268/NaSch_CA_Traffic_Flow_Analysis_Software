@@ -20,7 +20,7 @@ lanes = 3
 length = 100
 
 #trafficGenerator = SimpleTrafficGenerator(10)
-trafficGenerator = TrafficGenerator(120) #density 0.08= 24, 0.2 = 60, 0.6 = 180 , 0.4 = 120    #if 10 then that means increase system density linearly
+trafficGenerator = TrafficGenerator(180) #density 0.08= 24, 0.2 = 60, 0.6 = 180 , 0.4 = 120    #if 15 then that means increase system density linearly
 #trafficGenerator = GaussianTrafficGenerator(15,25) #Needs A LOT OF WORK!
 speedLimits = []
 

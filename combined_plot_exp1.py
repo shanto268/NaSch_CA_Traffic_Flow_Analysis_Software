@@ -312,7 +312,6 @@ def plotter(f1,f2,f3,f4,f5,f6,f7,f8,f9): #f4 represents density string
 
 
 
-
 #********************************************************* RV FD COMBINED *****************************************************************
 
     plt.scatter(dd1, ave_flowrv1 ,label = "low opportunistic")

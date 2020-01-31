@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Experiment 1 plot
+
+Note: Make ylim consistent
 """
 from matplotlib.ticker import StrMethodFormatter
 import matplotlib.pyplot as plt
@@ -54,6 +56,10 @@ def plot1(fname):
         prob = []    
         time = []
         tcls = []
+        totlane = []
+        avlane = []
+        rvlane = []
+        carclus = []
         
         with open(fname,'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
@@ -68,7 +74,11 @@ def plot1(fname):
                 clnum.append(float(row[7]))
                 avgclsize.append(float(row[8]))
                 prob.append(float(row[9]))
-        
+                totlane.append(float(row[10]))
+                avlane.append(float(row[11]))
+                rvlane.append(float(row[12]))
+                carclus.append(float(row[13]))
+                
         for i in range(len(updates)):
             t =  2.2 * updates[i]
             time.append(t)
@@ -78,8 +88,42 @@ def plot1(fname):
         for i in clnum:
             cum_i += i
             cum_clnum.append(cum_i)
-            
+    
+        print(str(nn[0]) + " average clusterability value: " + str(sum(carclus) / len(carclus)) )
         
+        plt.plot(updates, totlane, 'black', label='Total')
+        plt.plot(updates, avlane, 'red', label='AV')
+        plt.plot(updates, rvlane, 'blue', label='RV')
+        plt.xlabel("Timesteps")
+        plt.ylabel("Total Number of Lane Changes")
+     #   plt.ylim(0,7000)
+        plt.title("Number of Lane Changes over time")
+        plt.legend()
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_lane_num_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.plot(updates, avlane)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Total Number of Lane Changes by AV")
+        plt.title("Number of Lane Changes (AV) over time")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_lane_av_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.plot(updates, rvlane)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Total Number of Lane Changes by RV")
+        plt.title("Number of Lane Changes (RV) over time")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_lane_rv_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.plot(updates, carclus)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Ratio")
+        plt.title("Clusterability")
+        plt.ylim(0,0.4)
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/tclusterability_"+str(nn[0])+".png")
+        plt.show()
+                
         plt.plot(updates, cum_clnum )
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Clusters")
@@ -91,6 +135,7 @@ def plot1(fname):
         plt.xlabel("Timesteps")
         plt.ylabel("Proportion of AV-AV headways")
         plt.title("Probability of AV-AV headways")
+    #    plt.ylim(0,0.12)
         plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/prob_AV-AV_"+str(nn[0])+".png")
         plt.show()
         
@@ -105,6 +150,7 @@ def plot1(fname):
         plt.plot(updates, avgclsize)
         plt.xlabel("Timesteps")
         plt.ylabel("Average Size of Clusters")
+    #    plt.ylim(0,16)
         plt.title("Average Size of Clusters over time")
         plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/cluster_size_"+str(nn[0])+".png")
         plt.show()
@@ -223,6 +269,7 @@ def histo(a,q3,nn):  # a is array, q3 is a string label for parameter name and n
     plt.xlabel(q3)
     plt.ylabel("frequency")
     plt.title("Histogram of " + str(q3))  
+   # plt.ylim(0,22)
     plt.xticks(rotation=45)
     plt.savefig("draft_2/experiment_1/figures/"+str(nn)+"/hist"+str(q3)+str(nn)+".png")
     plt.show()
@@ -244,9 +291,9 @@ namei = "draft_2/experiment_1/data_files/mid_dens_oppo.txt"
 nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
 nameiii = "draft_2/experiment_1/data_files/mid_dens_base.txt"
 
-m1 = plot1(namei)
-plot1(nameii)
-plot1(nameiii)
+m1 = plot1(name8)
+plot1(name9)
+#plot1(nameiii)
 
 """
 plot_all = [name1,name2,name3,name4,name5,name6,name7,name8,name9]

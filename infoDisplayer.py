@@ -32,10 +32,12 @@ class InfoDisplayer():
         updates = self.road.updates #updates
         netAV = self.road.av 
         freq = self.road.freqAV
-        L0 = self.road.L0c
+      #  L0 = self.road.L0c
         cluster_num = 10                        #needs work
         cluster_size = 10                       #needs work
-        numlanechng = self.road.lanechange #number of lane changes                                                                                                     # newtotalCars, newavgSpeed = self.getAvgCarSpeedincoming()
+        numlanechng = self.road.lanechange #number of lane changes 
+        avlane = self.road.avlane
+        rvlane = self.road.rvlane                                                                                                    # newtotalCars, newavgSpeed = self.getAvgCarSpeedincoming()
         congestion = totalCars*100/self.cells #density * 100
         density = carNum/self.cells #total density
         densityrv = totalRV/self.cells
@@ -55,7 +57,7 @@ class InfoDisplayer():
             avprop = 0
         else: avprop = (av / inflow) * 100
         trigpoint = self.road.triggerbin
-        
+        car_in_clus = self.road.cluster_num_car / carNum  #SAS new 2020
         
         text = [self.text[0]]
        # text.append("LO: " + str(L0))
@@ -79,7 +81,10 @@ class InfoDisplayer():
     #    text.append("Control Speed: {:0.3f}".format(speed))
         text.append("Density: {:0.3f}".format(density))
         #text.append("Density: {:0.3f}".format(newdensity))
-       # text.append("Lane changes: " + str(numlanechng))
+        text.append("Total Lane changes: " + str(numlanechng))
+        text.append("AV Total Lane changes: " + str(avlane))
+        text.append("RV Total Lane changes: " + str(rvlane))
+        text.append("Clusterability: " + str(car_in_clus))
       #  if trigpoint == 1:
       #      text.append("Control status: on" )
       #  else:
@@ -92,24 +97,7 @@ class InfoDisplayer():
         text.append(str(298*xs) + " Texas Tech Multidisciplinary Research in Transportation(TechMRT)")
         self.text = text
         self.renderLabels()
-        
-        x = []
-        y = []
-        z = []
-        updtes = []
-        prop =[]
-        car = []
-        numchange = []
-        
-        for update in range(updates):
-            x.append(density)
-            y.append(flow) 
-            z.append(avgSpeed)
-            prop.append(avprop)
-            numchange.append(numlanechng)
-            car.append(carNum)
-            updtes.append(updates)    
-        
+              
         """ name change of filea and comments on filen"""     
         
         name1 = "draft_2/experiment_1/data_files/low_dens_oppo.txt"
@@ -132,11 +120,8 @@ class InfoDisplayer():
         nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
         nameiii = "draft_2/experiment_1/data_files/mid_dens_base.txt"
         
-        file1 = open(nameiii,"a+") 
-    #    filea = open("cluster_info_unaware.txt", "a+")
-    #    filea.write(str(updates) + ", " + str(self.road.clarr) + "\n")               
-        file1.write(str(density) + ", " + str(flow) + ","  + str(updates)  + ", "  + str(densityrv)  + ", "   + str(flowrv)  + ", "  + str(densityav)  + ", " + str(flowav)  + ", "   + str(cluster) + ", " + str(avgclus) + ", " + str(freq) + "\n")
-
+        file1 = open(name8,"a+")            
+        file1.write(str(density) + ", " + str(flow) + ","  + str(updates)  + ", "  + str(densityrv)  + ", "   + str(flowrv)  + ", "  + str(densityav)  + ", " + str(flowav)  + ", "   + str(cluster) + ", " + str(avgclus) + ", " + str(freq) + ", " + str(numlanechng) + ", " + str(avlane) + ", " + str(rvlane)+ ", " + str(car_in_clus) + "\n")                             
         file1.close()
 
 

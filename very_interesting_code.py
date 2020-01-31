@@ -12,6 +12,7 @@ print("\nInput " + str(avs_x) +"\n")
 gap = 3
 cluster_thresh = 4
 count = 0
+cluster_num_car = 0 #new add 2020 SAS
 clustersize = []
 loop = []
 
@@ -63,10 +64,11 @@ print("Mega cluster new: " + str(MC)+"\n")
 for arr in MC:
     if len(arr) >= cluster_thresh:
         clustersize.append(len(arr))
+        cluster_num_car += len(arr)
         count += 1
         
 print("cluster size: " + str(clustersize)) # get average
-
+print("numbers of cars in cluster: " + str(cluster_num_car))
 clinfo = []
 
 avg_size = 0

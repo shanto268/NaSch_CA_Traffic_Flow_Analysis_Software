@@ -58,6 +58,9 @@ def plot1(fname):
         clnum = []
         avgclsize = []
         prob = []        
+        totlane = []
+        avlane = []
+        rvlane = []
         
         with open(fname,'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
@@ -72,18 +75,106 @@ def plot1(fname):
                 clnum.append(float(row[7]))
                 avgclsize.append(float(row[8]))
                 prob.append(float(row[9]))
-            
+                totlane.append(float(row[10]))
+                avlane.append(float(row[11]))
+                rvlane.append(float(row[12]))
+                
         FD_arr = []
         params = []  #fd, fdrv, fdav
         FD_RV_arr = []
         FD_AV_arr = []
         
+        dens = density[::99]
+        totlane_dens = totlane[::99]
+        avlane_dens = avlane[::99]
+        rvlane_dens = rvlane[::99]
+        totlane_dens = [totlane_dens[0]] + [totlane_dens[i+1] - totlane_dens[i] for i in range(len(totlane_dens)-1)]
+        avlane_dens = [avlane_dens[0]] + [avlane_dens[i+1] - avlane_dens[i] for i in range(len(avlane_dens)-1)]
+        rvlane_dens = [rvlane_dens[0]] + [rvlane_dens[i+1] - rvlane_dens[i] for i in range(len(rvlane_dens)-1)]
+        
+        print("av: " + str(avlane_dens))
+        print("rv: " + str(rvlane_dens))
+        print("\n\n")
+        densityrv_ = densityrv[::99]
+        densityav_ = densityav[::99]
+        numrv = [round(300*i) for i in densityrv_]
+        numav = [round(300*i) for i in densityav_] 
+        
+        print("numav: " + str(numav))
+        print("numrv: " + str(numrv))
+        print("\n\n")
+        
+        for i in range(len(avlane_dens)):
+            avlane_dens[i] = avlane_dens[i] / numav[i] 
+            rvlane_dens[i] = rvlane_dens[i] / numrv[i] 
+            totlane_dens[i] = totlane_dens[i] / (numrv[i] + numav[i] )
+      #  print("total: " + str(totlane_dens))
+        print("av: " + str(avlane_dens))
+        print("rv: " + str(rvlane_dens))
+
         cum_clnum = []
         cum_i = 0
         for i in clnum:
             cum_i += i
             cum_clnum.append(cum_i)
-            
+          
+        plt.plot(updates, totlane, 'black', label='Total')
+        plt.plot(updates, avlane, 'red', label='AV')
+        plt.plot(updates, rvlane, 'blue', label='RV')
+        plt.xlabel("Timesteps")
+        plt.ylabel("Total Number of Lane Changes")
+        plt.title("Number of Lane Changes over time")
+        plt.ylim(0,7000)
+        plt.legend()
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_lane_num_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.plot(updates, avlane)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Total Number of Lane Changes by AV")
+        plt.title("Number of Lane Changes (AV) over time")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_lane_av_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.plot(updates, rvlane)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Total Number of Lane Changes by RV")
+        plt.title("Number of Lane Changes (RV) over time")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_lane_rv_"+str(nn[0])+".png")
+        plt.show()
+        
+        ####
+        plt.scatter(dens, totlane_dens, label='Total')
+        plt.scatter(dens, avlane_dens, label='AV')
+        plt.scatter(dens, rvlane_dens, label='RV')
+        plt.plot(dens, totlane_dens)
+        plt.plot(dens, avlane_dens)
+        plt.plot(dens, rvlane_dens)
+        plt.xlabel("System Density")
+        plt.ylabel("Lane Change Rate")
+        plt.ylim(0,18)
+        plt.title("Lane Chane Rate")
+        plt.legend()
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/dens_lane_num_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.scatter(dens, avlane_dens, color='orange')
+        plt.plot(dens, avlane_dens, 'orange')
+        plt.xlabel("System Density")
+        plt.ylabel("Lane Change Rate of AVs")
+        plt.title("Lane Change Rate (AV)")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/dens_lane_av_"+str(nn[0])+".png")
+        plt.show()
+        
+        plt.scatter(dens, rvlane_dens, color='green')
+        plt.plot(dens, rvlane_dens, 'green')
+        plt.xlabel("System Density")
+        plt.ylabel("Lane Change Rate of RVs")
+        plt.title("Lane Change Rate (RV)")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/dens_lane_rv_"+str(nn[0])+".png")
+        plt.show()
+        
+        ###
         
         plt.plot(updates, cum_clnum )
         plt.xlabel("Timesteps")
@@ -116,6 +207,8 @@ def plot1(fname):
         plt.scatter(densityrv, flowrv, s= 1)
         plt.xlabel("RV density")
         plt.ylabel("RV flow")
+        plt.xlim(0,0.75)
+        plt.ylim(0,0.45)
         plt.title("Fundamental Diagram: RV")  
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv-1"+str(nn[0])+".png")
         plt.show()
@@ -123,6 +216,8 @@ def plot1(fname):
         plt.scatter(densityav, flowav, s= 1)
         plt.xlabel("AV density")
         plt.ylabel("AV flow")
+        plt.xlim(0,0.35)
+        plt.ylim(0, 0.25)
         plt.title("Fundamental Diagram: AV") 
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-1"+str(nn[0])+".png")
         plt.show()
@@ -131,7 +226,9 @@ def plot1(fname):
         plt.scatter(density, flow, s= 1)
         plt.xlabel("density")
         plt.ylabel("flow")
-        plt.title("Fundamental Diagram")  
+        plt.title("Fundamental Diagram") 
+        plt.xlim(0,1)
+        plt.ylim(0, 0.6)
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-data"+str(nn[0])+".png")
         plt.show()
         
@@ -194,11 +291,11 @@ def plot1(fname):
         FD_arr.append( piecewise_linear(xd, *p)) 
         
         """
-        plt.plot(lan, updates)
-        plt.xlabel('time steps')
-        plt.ylabel('Number of lane changes to test lane')
-        plt.savefig("/lane"+str(nn[0])+".png")
-        plt.show()
+      #  plt.plot(lan, updates)
+      #  plt.xlabel('time steps')
+      #  plt.ylabel('Number of lane changes to test lane')
+      #  plt.savefig("/lane"+str(nn[0])+".png")
+      #  plt.show()
         """
         
         xrv = densityrv
@@ -263,7 +360,7 @@ def plot1(fname):
         plt.plot(xdav, piecewise_linear(xdav, *pav), 'orange', label='AV')  
         plt.plot(xdrv, piecewise_linear(xdrv, *prv), 'green', label='RV')  
         plt.plot(xd, piecewise_linear(xd, *p), 'blue', label='Overall')  
-        plt.ylim(0, 0.7)
+        plt.ylim(0, 0.65)
         plt.xlim(0,1)
         plt.legend()
         plt.title('Fundamental diagram: ')
@@ -273,7 +370,7 @@ def plot1(fname):
         plt.scatter(density, flow, c='r', s=1, marker = "x", label='AV')  
         plt.scatter(densityrv, flowrv, c='b', s=1, marker = "o", label='RV')  
         plt.scatter(densityav, flowav, c='g', s=1, marker = ".", label='Overall')  
-        plt.ylim(0, 0.7)
+        plt.ylim(0, 0.65)
         plt.xlim(0,1)
         plt.legend(loc='upper right')
         plt.title('Fundamental diagram: ')
@@ -281,21 +378,22 @@ def plot1(fname):
         plt.show()
         
         return FD_arr, FD_RV_arr, FD_AV_arr, params
-         
+        
         
 namea = "draft_2/experiment_2/data_files/fd_oppo.txt"
 nameb = "draft_2/experiment_2/data_files/fd_aware.txt"
 namec = "draft_2/experiment_2/data_files/fd_base.txt"
 
-#m1 = plot1(namea)
-#m2 = plot1(nameb)
+m1 = plot1(namea)
+m2 = plot1(nameb)
 m3 = plot1(namec)
 
+"""
 plot_all = [namea, nameb, namec]
 for i in plot_all:
     plot1(i)
 
-
+"""
 """
 
 def plot2(arr1, arr2, arr3):

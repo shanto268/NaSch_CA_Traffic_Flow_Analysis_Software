@@ -1,0 +1,9 @@
+mid_dens_base average clusterability value: 0.22306286549707569
+mid_dens_oppo average clusterability value: 0.2504444444444447
+mid_dens_aware average clusterability value: 0.2707901234567903
+
+high_dens_aware average clusterability value: 0.31107020127638735
+high_dens_base average clusterability value: 0.2557437407952873
+
+
+Same graph viusals and smoothing

@@ -1,0 +1,12 @@
+Average of Mean cluster size is 0 for mid_dens_base
+Average of Number of clusters is 0 for mid_dens_base
+Average of Time period of clusters is 0 for mid_dens_base
+Average of Mean cluster size is 4.0 for mid_dens_base
+Average of Number of clusters is 1.0 for mid_dens_base
+Average of Time period of clusters is 2.0 for mid_dens_base
+Average of Mean cluster size is 4.0 for mid_dens_base
+Average of Number of clusters is 1.0 for mid_dens_base
+Average of Time period of clusters is 2.0 for mid_dens_base
+Average of Mean cluster size is 6.479963898916967 for mid_dens_base
+Average of Number of clusters is 2.5836341756919374 for mid_dens_base
+Average of Time period of clusters is 34.869565217391305 for mid_dens_base

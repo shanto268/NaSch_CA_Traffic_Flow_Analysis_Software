@@ -7,15 +7,9 @@ analytical insgiht --> look at percolation theory for opportunistic
 # Reading:
 percolation and connected vehicle paper  //Sometime during the week
 
-# Email work:
-description of research to Dr.Li  //Later tonight
+# Programming work:        //Later this weekend
+>>> Simulate constant density for 1000 updates every 0.1 density    
+    Plot survival time graph
+	Other cluster param analysis
 
-# Results update:
-Upload new data to overleaf  //Later tonight
-
-# Github update:
-Github						//Later tonight
-
-# Programming work:        //Later tonight
-Simulate constant density for 1000 updates every 0.1 density    
-Plot survival time graph
+>>> Need to redo experiment 2
