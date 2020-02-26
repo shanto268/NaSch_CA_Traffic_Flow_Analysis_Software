@@ -23,14 +23,20 @@ class Representation():
         self.drawRoad(dt)
         self.infoDisplayer.draw() #draws the comments and updates
 
-    def drawRoad(self, dt):
+    def batch(self, dt):#updates simulation
+        self.__updateAcc(dt) #updates infodisplayer
+     #   self.screen.fill( (0,100,0) ) #background
+     #   self.drawRoad(dt)
+     #   self.infoDisplayer.draw() #draws the comments and updates
+
+    def drawRoad(self, dt): #determines widht and number of lane geometry
         y = 0
         for lane in self.road.lanes:
             self.__drawLane(lane, y, dt)
-            y += self.cellSize #number of values depend on the number of lanes
-          #  print("y: " + str(y))
+            y += self.cellSize  #number of values depend on the number of lanes
+         #   print("y: " + str(y))
             
-    def __drawLane(self, lane, y, dt):
+    def __drawLane(self, lane, y, dt):  #draws the cars and empty road
         x = 0
         for cell in lane: #cell stores the value (i.e. None if empty or car object if car object!) it is the element
             idx = x / self.cellSize, y / self.cellSize #each grid id in coordinates (x,y)
@@ -40,14 +46,19 @@ class Representation():
                 self.__drawCar(cell, x, y)
             x += self.cellSize #the width of the road
             
-    def __drawCell(self, x, y, speedLimit): #draws the road cells
+    def __drawCell_dedicated(self, x, y, speedLimit): #draws the road cells
         if self.road.updates > 10: #include color condition for dedicated lane --> change the current condition and dedicated lane colored only
             realPos = self.__getPosOnScreen((x,y)) #needs change
             pygame.draw.rect(self.screen, ( 180, 180, 180), (realPos[0], realPos[1], self.cellSize, self.cellSize), 0) 
         else: 
             realPos = self.__getPosOnScreen((x,y)) 
             pygame.draw.rect(self.screen, ( 180, 180, 180), (realPos[0], realPos[1], self.cellSize, self.cellSize), 0) 
-            
+    
+    def __drawCell(self, x, y, speedLimit): #draws the road cells
+            realPos = self.__getPosOnScreen((x,y)) #needs change
+            pygame.draw.rect(self.screen, ( 180, 180, 180), (realPos[0], realPos[1], self.cellSize, self.cellSize), 0) 
+
+        
     def __drawCar(self,car, x, y): #include param for type
         invProgress = (1 - self.acc / self.updateFrame)*self.cellSize
         offset = (car.prevPos[0] - car.pos[0])*invProgress, (car.prevPos[1] - car.pos[1])*invProgress

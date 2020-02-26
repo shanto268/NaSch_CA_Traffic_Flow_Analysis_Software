@@ -7,12 +7,11 @@ from simulation.trafficGenerators import *
 pygame.init()
 pygame.display.set_caption('Traffic Analysis Software')
 
-
 # cd Documents\Research_work\Traffic_flow\Python
 
-if len(sys.argv) != 2: #number of arguments
-    print("Usage: python pyTraffic.py module_with_config")
-    exit()
+#if len(sys.argv) != 2: #number of arguments
+#    print("Usage: python pyTraffic.py module_with_config")
+#    exit()
 
 #config = importlib.import_module(sys.argv[1]) #sys.argv[1] = e.g. .case or .trafficlight
 config = importlib.import_module('config.case') #sys.argv[1] = e.g. .case or .trafficlight
@@ -23,7 +22,6 @@ pygame.init()
 screen = pygame.display.set_mode(config.size)
 
 clock = pygame.time.Clock() #object created to keep track of time
-
 
 #simulation.car.Car.slowDownProbability = config.slowDownProbability 
 #simulation.car.Car.laneChangeProbability = config.laneChangeProbability
@@ -43,6 +41,7 @@ while simulation.running:
     dt = clock.get_time()# —	time used in the previous tick
     simulation.update(dt) #updates logistics
     representation.draw(dt * simulation.timeFactor) #updates graphics
+  #  representation.batch(dt * simulation.timeFactor) #batch mode
     pygame.display.flip()
 
 

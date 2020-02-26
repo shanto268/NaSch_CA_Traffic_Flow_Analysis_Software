@@ -1,0 +1,15 @@
+> Simulate experimental cases that hasn't been simulated (steady and increasing cases)
+        >> analyze results
+> Organize all results and upload to Elsevier draft
+        >> explanation/description
+        >> new sections: Model
+                > seperate model and analysis
+                > Measuring the clustering of heterogenous traffic flow
+        >> Algorithm in appendix
+        >> Update rules in appendix
+
+> Smoothening curves
+
+> Create automation scripts
+        >> work on Front End
+

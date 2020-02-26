@@ -40,14 +40,3 @@ class SpeedLimit:
                 self.acc = 0
                 self.active = not self.active
 
-
-'''
-class DynLane:
-    def __init__(self, range, ticks):
-        
-    functions that take in proportion of AV:RV and activate the class/lane
-        updates proportion with each iteration
-        stops when a certain proportion is reached
-    
-    function that allows AV access only and not RV
-'''

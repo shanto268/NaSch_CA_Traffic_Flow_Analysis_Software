@@ -3,6 +3,7 @@
 import pygame
 
 time_period = 100 
+simTime = 1200
 
 class SimulationManager: 
     def __init__(self, road, trafficGenerator, updateFrame):
@@ -10,7 +11,7 @@ class SimulationManager:
         self.trafficGenerator = trafficGenerator
         self.updateFrame = updateFrame
         self.acc = 0
-        self.timeFactor = 0.0
+        self.timeFactor = 20.0
         self.prevTimeFactor = 1.0
         self.running = True
         self.stepsMade = 0
@@ -22,7 +23,10 @@ class SimulationManager:
             self.acc = self.acc % (self.updateFrame + 0)
             self.makeStep_constant_density()  #comment this for increasing density
           #  self.makeStep_increasing_density()  #uncomment this for increasing density
+        self.endSimulation() #comment for increasing density
+   #     self.endSim_fd() #uncomment for increasing density
 
+        
     def makeSteps(self, steps): #makes multiple steps
         for x in range(steps): self.makeStep_constant_density()  #comment this for increasing density
       #  for x in range(steps): self.makeStep_increasing_density()  #uncomment this for increasing density
@@ -59,8 +63,12 @@ class SimulationManager:
         
     def __pauseSwitch(self):
         self.timeFactor, self.prevTimeFactor = self.prevTimeFactor, self.timeFactor
-    def __speedUp(self): self.timeFactor = min(8.0, self.timeFactor*2)
-    def __speedDown(self): self.timeFactor = max(1/8, self.timeFactor/2)
+    def __speedUp(self): 
+        self.timeFactor = min(8.0, self.timeFactor*2)
+
+    def __speedDown(self): 
+        self.timeFactor = max(1/8, self.timeFactor/2)
+
     def __oneStepForward(self):
         if self.isStopped(): 
             self.makeStep_constant_density()  #comment this for increasing density
@@ -70,4 +78,11 @@ class SimulationManager:
         def manySteps():
             self.makeSteps(steps)
         return manySteps
-
+    
+    def endSimulation(self):
+        if (self.road.updates == simTime):
+            self.running = False
+            
+    def endSim_fd(self):
+        if self.road.carCount() == 300:
+            self.running = False

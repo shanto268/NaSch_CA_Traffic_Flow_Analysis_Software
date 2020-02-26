@@ -4,13 +4,14 @@ from functools import reduce
 from simulation.car import Car
 import math as mp
 import numpy as np
+import sys
 #import nagel
 #import scipy.stats as stats
 
 #changes made in inbounds and simulationmanager --> problem in update x and pos[0] function conditions.. dead when coincide and glides
 
 c1 = 12
-maxSpeed = 4    #change maxSpeed for exp1 (3 for base, 5 for aware, 4 for oppo)
+maxSpeed = int(sys.argv[3])    #change maxSpeed for exp1 (3 for base, 5 for aware, 4 for oppo)
 time_period = 100
 
 class Road:
@@ -133,7 +134,7 @@ class Road:
         self._updateCars(r1) #pass lanechange for just regular heteregenous flow 
         self._updateCars(speedupdate)
        # print(self.av) 
-        print("\nUpdate: " + str(self.updates))
+      #  print("Update: " + str(self.updates))
         if (self.updates % 100) == 1:
             self.avee = self.av     
         elif self.updates <= 100: self.avee = self.av 
@@ -184,7 +185,6 @@ class Road:
                 lane = random.randint(0,2)
                 car = Car(self, (random.randint(0,self.getLength()-1), lane), self.speedLimits.maxSpeed, self.assigntype())
                 if(self.placeObject(car)): #if true --> object in desired position is not blocked
-                    
                     return 1 + self.__dpushCars(amount - 1)
                 else: 
                     return 0 +  self.__dpushCars( amount )
@@ -389,7 +389,7 @@ class Road:
         return self.loopfix((pos[0]+1, pos[1]))
     
     def d2n(self, pos):
-        v = min(maxSpeed, self.dton(pos))
+        v = min(self.getSpeedLimitAt(pos), self.dton(pos))
         return v
     
     """
@@ -677,7 +677,7 @@ class Road:
                 count+=1
         
         self.cluster_num_car = car_clus
-        print(self.cluster_num_car)
+      #  print(self.cluster_num_car)
         self.clunum = count        
         new = self.clusterform_size
         clstr = []
@@ -793,422 +793,4 @@ class Road:
             self.laneform_size.append(lane_size + 1)
         lane_size = 0        
         
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-import simulation.speedLimits, random
-from functools import reduce
-from simulation.car import Car
-import math as mp
-import numpy as np
-import scipy.stats as stats
-
-#problem in update x and pos[0] function conditions.. dead when coincide and glides
-
-class Road:
-    def __init__(self, lanesCount, length, speedLimits):
-        self.lanes = Road.generateEmptyLanes(lanesCount, length) #functional call to create empty lanes using user input -> returns desired number of lanes with desired number of length with None values as elements
-        self.updatedLanes = Road.generateEmptyLanes(lanesCount, length) #same as above but used to update the elements of the created structure
-        self.speedLimits = speedLimits if speedLimits != None else simulation.speedLimits.SpeedLimits([], 5) #refers to speedlimits.py to set speedlimits
-        self.deadAV = 0 # cars that are gone
-        self.updates = 0 #number of updates?
-        self.deadCars = 0
-        self.rv = 0
-        self.av = 0
-        self.count = 1
-        self.lanechange = 0
-        self.contspeed = 3.5
-        self.contprop = 30
-        self.tick = 0
-        self.trigger = 0 #counts number of time condition triggered
-        self.amount = 0
-        self.temp = []
-        self.even = 0
-        self.odd = 0
-        self.result = 0
-        self.lanesCount = lanesCount
-        self.length = length
         
-    def __updateCars(self, action): #better code
-        for lane in self.lanes:
-            for entity in lane:
-                if entity != None:       
-                    newPos = list(action(entity)) #tuple --> (x + v, lane)     
-            #        print("moving at at: "+str(newPos))
-                    self.updatedLanes[newPos[1]][newPos[0]-self.getLength()] = entity 
-                    self.lanechange = self.lanechangenum(entity.feedlaneroadpy()) 
-                     
-        self.flipLanes() #makes the road empty for new cars to enter and propagates existing cars in the lanes
-        
-        
-    def update(self): #updates speedlimits and car movements
-        self.speedLimits.update()   
-        lanechange = lambda x: x.updateLane()  #for hetero only
-        speedupdate = lambda x: x.updateX() 
-        dynamic = lambda x: x.dynamicupdateLane()
-        self.__updateCars(lanechange) #pass lanechange for just regular heteregenous flow 
-        self.__updateCars(speedupdate)
-        self.updates += 1
-        print("Update: " + str(self.updates))
-        print("")
-    def lanechangenum(self, num):        
-     #   print(num)
-        return num
-
-    
-    def flipLanes(self):#makes the road empty for new cars to enter and propagates existing cars in the lanes
-        self.lanes = self.updatedLanes
-        self.updatedLanes = Road.generateEmptyLanes(self.getLanesCount(), self.getLength())
-        
-
-    def addCar(self): #doesn't seemed to have been used. Boolean Results!
-        if self.lanes[0][0] == None: #true initially
-            self.lanes[0][0] = Car(self, (0,0)) #initiates the identity car at with road being self, and position being (0,0)
-            return True 
-        else:
-            return False
-
-    def pushCars(self, amount): #amount comes from TG
-        return self.__pushCars(amount, [x for x in reversed(range(self.getLanesCount()))])
-
-    def pushCarsRandomly(self, amount): #does what the name suggests
-        lanes = [x for x in range(self.getLanesCount())] 
-        random.shuffle(lanes) #changes lane order
-       # print("lane order " +str(lanes))
-        return self.__pushCars(amount, lanes)
-   
-    def gtpushcars(self, inflow):
-        lanes = [x for x in range(self.getLanesCount())] 
-        random.shuffle(lanes)
-        return self.gt__pushCars(inflow, lanes)    
-          
-    def gt__pushCars(self, inflow, lanes): #if car pushed then return 1, if not then 0
-        #totalCars, avgSpeed = self.getAvgCarSpeed()
-        lane = lanes.pop() 
-        avnum = self.gaussianprob(inflow)
-        rvnum = inflow - avnum
-       # print("RV: "+ str(rvnum))
-        for cars in range(1,avnum+1):  
-            car = Car(self, (0, lane), self.speedLimits.maxSpeed, 2)
-           # print("AV num " + str(cars)) #First AV car 1
-        for carse in range(avnum+1,inflow+1):
-            car = Car(self, (0, lane), self.speedLimits.maxSpeed, 1)
-          #  print("Regular V num " + str(carse)) #First RV car 1 + avnum
-       
-    def gaussianprob(self, inflow):  
-        mu, sigma = 3, .5 # mean and standard deviation
-        s = np.random.normal(mu, sigma, 100)        
-        x =random.randint(0,99)
-      #  print("x " + str(x))
-        print(s[x])
-        print(mp.floor(s[x]))
-        avnumber =mp.ceil(( s[x] / 100 ) * inflow )
-      #  print("AV number: " + str(avnumber))         
-        return avnumber 
-    
-    def _pushCarsRandomly(self, amount): #does what the name suggests
-        lanes = [x for x in range(self.getLanesCount())] 
-        random.shuffle(lanes) #changes lane order
-        return self.t__pushCars(amount, lanes)
-    
-    def assigntype(self):   
-        mu, sigma = .3, .05 # mean and standard deviation
-        avprob = np.random.normal(mu, sigma, 100) 
-        x =random.randint(0,99)
-        prob_av = avprob[x]
-  #      print("Prob(AV): " + str(prob_av))
-        prob_rv = 1 - prob_av
-   #     print("Prob(RV): " + str(prob_rv))
-        y = random.uniform(0, 1)
-        z = random.uniform(0.15, 0.22)
-        d_av = abs(y - prob_av + z)
-        d_rv = abs(y - prob_rv)
-    #    print("d(AV): " + str(d_av))
-     #   print("d(RV): " + str(d_rv))
-        w = min(d_rv,d_av)  
-      #  print("Choice: " + str(w))
-       # print("")
-        if w == d_rv: #case: RV
-          vtype = 1
-          return vtype
-        elif w == d_av :  #case: AV                                
-         vtype = 2
-         return vtype     
-         
-        
-    def t__pushCars(self, amount, lanes): #if car pushed then return 1, if not then 0
-        if not amount or not lanes: return 0
-        else:
-            lane = lanes.pop() #decides which lane to select
-     #      print("lane popped " +str(lane))
-            car = Car(self, (0, lane), self.speedLimits.maxSpeed, self.assigntype()) #point of generation of object Car at a random lane
-            if(self.placeObject(car)): #if true --> object is at starting position
-                if car.vtype == 2:
-                    self.avcount += 1
-                return 1 + self.t__pushCars(amount - 1, lanes) #recursive condition that counts number of cars enterring
-            else:
-                return self.t__pushCars(amount, lanes)     
-    def carcount(self):        
-        for lane in self.lanes:
-            none = lane[0:119].count(None)
-            numcar = self.getCellCount() - none 
-            return numcar
-            
-    def carCount(self):
-        return sum( reduce(lambda x, y: x+(0 if y == None else 1), lane, 0) for lane in self.lanes)          
-    
-    def AVprop(self):
-        if self.carCount() > 0:
-            avprop = ((self.av - self.deadAV) / self.carCount()) * 100
-        elif self.carCount() == 0:
-            avprop = ((self.av - self.deadAV) / (self.carCount() + 1) ) * 100
-        return avprop
-    
-    def __pushCars(self, amount, lanes): #if car pushed then return 1, if not then 0 -->HETERO
-        if not amount or not lanes: return 0
-        else:
-            lane = random.randint(0,2)
-            #lane = lanes.pop()
-            car = Car(self, (random.randint(0,self.getLength()-1), lane), self.speedLimits.maxSpeed, self.assigntype())
-            if(self.placeObject(car)): #if true --> object in desired position is not blocked
-                return 1 + self.__pushCars(amount - 1, lanes) #recursive condition that counts number of cars enterring
-            else:
-                return self.__pushCars(amount, lanes)
-    
-    def avinflow(self, amount):
-        self.temp.append(amount)
-   #     print(self.temp)
-   #     print(self.temp[len(self.temp) - 1])   
-        if (self.updates % 2) == 0: #even
-            self.even = self.temp[len(self.temp) - 1]
-        else: 
-            self.odd = self.temp[len(self.temp) - 1]
-        self.result = abs(- self.even + self.odd)
-   #     print("result: " + str(self.result))
-            
-  
-        
-    #sum(iterable, start) --> for each lane from start from zero and add all cars as they come in
-    def getSpeedLimitAt(self, pos):
-        #print(self.speedLimits.getLimit(pos))
-        return self.speedLimits.getLimit(pos)
-
-    def distanceToNextThing(self, pos): #gives distance to next thing
-       #Counts distance between given pos and next object (car or obstacle), takes into considerations stops (speedLimit set to 0)
-     #   print(self.__distanceToNextThing((pos[0]+1, pos[1])))
-       # print("Pos 0: " + str(pos[0]) + " Pos 1: " +str(pos[1]) + " Pos[0] + 1: " + str(pos[0]+1))
-        return self.__distanceToNextThing((pos[0]+1, pos[1]))
- 
-    def __distanceToNextThing(self, pos):
-        if pos[0] >= self.getLength():
-            return self.getLength() # leaves the screen
-        else:
-            #print(self.lanes[pos[1]][pos[0]])
-            if self.lanes[pos[1]][pos[0]] == None and not self.speedLimits.shouldStop(pos):
-                return 1 + self.__distanceToNextThing((pos[0]+1, pos[1]))
-            else:
-                return 0
-
-    def getMaxSpeedAt(self, pos):
-       # print(min(self.getSpeedLimitAt(pos), self.distanceToNextThing(pos)) )
-        return min(self.getSpeedLimitAt(pos), self.distanceToNextThing(pos)) #compares the distance to the next thing and the speedlimit to return the smaller value as max speed
-
-    def findPrevCar(self, pos): #gives lane element from lanes
-        if not self.inBounds(pos) or self.getSpeedLimitAt(pos) == 0: return None
-        else:
-            if self.lanes[pos[1]][pos[0]] != None:
-                return self.lanes[pos[1]][pos[0]]
-            else:
-                return self.findPrevCar( (pos[0] - 1, pos[1]) ) #looping conditon --> checks backwards
-        
-    def possibleLaneChangeUp(self, pos):
-        return self.__possibleLaneChange(pos, pos[1]-1)
-    
-    def possibleLaneChangeDown(self, pos):
-        return self.__possibleLaneChange(pos, pos[1]+1)
-    
-    def __possibleLaneChange(self, pos, destLane): #returns boolean
-       # print("Pos[0]" + str(((pos[0]- (self.getLength()))%100)))
-        if not self.inBounds( (0, destLane) ) or self.lanes[destLane][pos[0]] != None:
-              return False  #False if the destLane pos has a car or the pos is out of bounds
-        else:
-            sourceLane = pos[1]
-            oneMoreLane = destLane + (destLane - sourceLane)
-            if not self.inBounds( (0, oneMoreLane) ):  
-                return True
-            else:
-                return self.lanes[oneMoreLane][pos[0]] == None
-     
-    def inflow(self, amount):
-        self.amount = amount
-        
-      
-    def dyn_possibleLaneChangeUp(self, pos):
-        return self.dyn__possibleLaneChange(pos, pos[1]-1) #inputs passed ((speed, sourcelane), destlane)
-    
-    def dyn_possibleLaneChangeDown(self, pos):
-        return self.dyn__possibleLaneChange(pos, pos[1]+1)
-    
-    def dyn__possibleLaneChange(self, pos, destLane): #returns boolean
-        if not self.inBounds( (0, destLane) ) or self.lanes[destLane][pos[0]] != None or destLane == 0:
-              return False  #False if the destLane pos has a car or the pos is out of bounds
-        else:
-            sourceLane = pos[1]
-            oneMoreLane = destLane + (destLane - sourceLane)
-            if not self.inBounds( (0, oneMoreLane) ) or sourceLane == 0:  
-                return True
-            else:
-                return self.lanes[oneMoreLane][pos[0]] == None
-            
-    def dynav_possibleLaneChangeUp(self, pos):
-        return self.dynav__possibleLaneChange(pos, pos[1]-1) #inputs passed ((speed, sourcelane), destlane)
-    
-    def dynav_possibleLaneChangeDown(self, pos):
-        return self.dynav__possibleLaneChange(pos, pos[1]+1)
-    
-    def dynav__possibleLaneChange(self, pos, destLane): #returns boolean
-        sourceLane = pos[1]
-        if not self.inBounds( (0, destLane) ) or self.lanes[destLane][pos[0]] != None or sourceLane == 0:
-              return False  #False if the destLane pos has a car or the pos is out of bounds
-        else:
-            oneMoreLane = destLane + (destLane - sourceLane)
-            if not self.inBounds( (0, oneMoreLane) ) or destLane == 0:  
-                return True
-            else:
-                return self.lanes[oneMoreLane][pos[0]] == None       
-            
-            
-    def loopinbounds(self, pos):
-        return pos[0] >= 0 and pos[1] >= 0 and pos[0] >= self.getLength() and pos[1] < self.getLanesCount()    
-
-    def inBounds(self, pos):
-      # print(self.inBounds)   #constraints movement of vehicle to these chosen parameters
-        if self.updates != 0 and (self.updates % 20) == 0: #important for looping and refreshing
-            return False
-        return pos[0] >= 0 and pos[1] >= 0 and pos[0] < self.getLength() and pos[1] < self.getLanesCount()
-       
-    
-    def clearAt(self, pos):
-        self.lanes[pos[1]][pos[0]] = None
-    
-    def placeObjects(self, entities):
-        return all(self.placeObject(entity) for entity in entities)
-
-    def placeObject(self, entity): #function that takes in input of car object and returns Bolean output whether object is placed in a certain lanes[entity.pos[0]][entity.pos[1]] or not
-        if (not self.inBounds(entity.pos)
-                or self.lanes[entity.pos[1]][entity.pos[0]] != None #entity.pos[0] = 0 for cars being generated; entity.pos[1] = lane
-                or self.getSpeedLimitAt(entity.pos) == 0 ):
-            return False  #essentially empty cells return False
-        else:
-            self.lanes[entity.pos[1]][entity.pos[0]] = entity
-            if entity.vtype == 1:
-                self.rv += 1 
-            else: 
-                self.av += 1
-            self.avinflow(self.av)    
-            return True # condition met --> True for placing an object
-        
-    def getLength(self): #gives length of each road --> user input
-      #  print("getLenght: " + str(len(self.lanes[0])))
-        return len(self.lanes[0]) #number of elements in one array of lanes
-    def getLanesCount(self):
-      #  print("getLane: " + str(len(self.lanes)))
-        return len(self.lanes) #number of lanes
-    def getCellCount(self):
-        #print(self.getLengthincoming() * self.getLanesCount())
-        return self.getLength() * self.getLanesCount() #total number of cells
-    
-    def getLengthincoming(self):
-        lane = self.lanes[0]
-      #  print(lane[0:7])
-     #   print(none)
-        cellincome = len(lane[0:8])
-       # print(cellincome)
-        return cellincome
-    
-    def incomingcars(self):
-        lane = self.lanes[0]
-        none = lane[0:8].count(None)
-        cellincome = len(lane[0:7])
-        carnumber = cellincome - none
-        return carnumber * self.getLanesCount()
-        
-    def getCellCountincoming(self):
-    #    print(self.getLengthincoming() * self.getLanesCount())
-        return self.getLengthincoming() * self.getLanesCount() 
-    
-    def getAvgCarSpeed(self): #counts the number of cars and avg speed
-        total = 0
-        cars = 0
-      #  print(self.lanes)
-        for lane in self.lanes:
-        #    print("Lane: " + str(lane))
-            for entity in lane:
-                if entity != None:
-                    cars += 1 
-                    total += entity.velocity #include further if conditions to calculate the number of AVs and RVs and caclulate their speed seperately
-        #print(total)
-        return (cars, total/cars if cars > 0 else 0)
-
-    def generateEmptyLanes(lanesCount, length):
-        lanes = [] #initialize lane array
-        for x in range(lanesCount): #loops for number of lanes to be created 
-            lanes.append( [None] * length ) #creates empty lane of None values with desired length
-        return lanes
-
-    def getAvgCarSpeedincoming(self): #counts the number of cars and avg speed
-        total = 0
-        cars = 0
-        lanes = self.lanes
-     #   print(self.lanes)
-        for lane in lanes:
-            #print("Lane: " + str(lane))
-            for entity in lane[9:141]:
-                if entity != None:
-                    cars += 1 
-                    total += entity.velocity 
-        return (cars, total/cars if cars > 0 else 0)
-
-"""

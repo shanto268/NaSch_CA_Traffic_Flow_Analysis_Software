@@ -2,52 +2,35 @@
 """
 Experiment 2 plot
 
+Note: remove -1 from clusterability
+
 """
 
 from scipy import optimize
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
-import scipy, matplotlib
-from scipy.optimize import curve_fit
-from scipy.optimize import differential_evolution
-import warnings
+#from scipy.optimize import curve_fit
+#from scipy.optimize import differential_evolution
+#import warnings
 
+def smooth(y, box_pts):
+    box = np.ones(box_pts)/box_pts
+    y_smooth = np.convolve(y, box, mode='same')
+    return y_smooth
 
+def piecewise_linear(x, x0, y0, k1, k2):
+    return np.piecewise(x, [x < x0], [lambda x:k1*x + y0-k1*x0, lambda x:k2*x + y0-k2*x0])
+        
+def x_intercept(slope, yi, xi):
+    return (slope*xi - yi)/ slope
 
 def plot1(fname):
         fn = fname
         new_nn = fname.split('/')
         fn = new_nn[3]
         nn = fn.split('.')
-    #    fr = str(nn[0]) + '.txt'
-        """
-        #dnewdata = "0.0, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "
-        dnewdata = "dnew line"
-        with open(fname, 'r') as f:
-            lines = f.read().split('\n')
-            #to delete line use "del lines[4]"
-            #to replace line:
-            for i in range(0,len(lines)):    
-                if (i % 100)  == 0 or (i % 100) < 19 and i > 0:  #or (i % 4)  == 1 :
-                    lines[i] = dnewdata
-        with open(fname,'w') as f:
-            f.write('\n'.join(lines))
 
-        with open(fname, "r") as f:
-            lines = f.readlines()
-        
-        with open(fname, "w") as f:
-            for line in lines:
-                if line.strip("\n") != "dnew line":
-                    f.write(line)
-                    
-        with open(fname, "r+") as f:     #fr change
-            a = f.read()
-        with open(fr, "w+") as f:     #fr change
-                f.write("0.0, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  \n" + a)
-        
-        """
         density = []
         flow = []
         updates = []
@@ -61,6 +44,7 @@ def plot1(fname):
         totlane = []
         avlane = []
         rvlane = []
+        carclus = []
         
         with open(fname,'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
@@ -78,6 +62,7 @@ def plot1(fname):
                 totlane.append(float(row[10]))
                 avlane.append(float(row[11]))
                 rvlane.append(float(row[12]))
+                carclus.append(float(row[13]))
                 
         FD_arr = []
         params = []  #fd, fdrv, fdav
@@ -117,6 +102,8 @@ def plot1(fname):
         for i in clnum:
             cum_i += i
             cum_clnum.append(cum_i)
+            
+        carclus = list(filter(lambda a: a != -1, carclus))
           
         plt.plot(updates, totlane, 'black', label='Total')
         plt.plot(updates, avlane, 'red', label='AV')
@@ -126,22 +113,32 @@ def plot1(fname):
         plt.title("Number of Lane Changes over time")
         plt.ylim(0,7000)
         plt.legend()
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_lane_num_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_number_of_lane_changes_all_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, avlane)
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Lane Changes by AV")
         plt.title("Number of Lane Changes (AV) over time")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_lane_av_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_number_lane_changes_av_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, rvlane)
         plt.xlabel("Timesteps")
-        plt.ylabel("Total Number of Lane Changes by RV")
-        plt.title("Number of Lane Changes (RV) over time")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_lane_rv_"+str(nn[0])+".png")
+        plt.ylabel("Total Number of Lane Changes by HV")
+        plt.title("Number of Lane Changes (HV) over time")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_number_lane_changes_hv_"+str(nn[0])+".png")
         plt.show()
+        
+        plt.plot([i for i in range(len(carclus))], carclus)
+        plt.plot([i for i in range(len(carclus))], smooth(carclus,500), 'r-', lw=1)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Ratio")
+        plt.title("Clusterability")
+      #  plt.ylim(0,0.4)
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/clusterability_"+str(nn[0])+".png")
+        plt.show()
+        
         
         ####
         plt.scatter(dens, totlane_dens, label='Total')
@@ -152,10 +149,10 @@ def plot1(fname):
         plt.plot(dens, rvlane_dens)
         plt.xlabel("System Density")
         plt.ylabel("Lane Change Rate")
-        plt.ylim(0,18)
-        plt.title("Lane Chane Rate")
+        plt.ylim(0,30)
+        plt.title("Lane Change Rate")
         plt.legend()
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/dens_lane_num_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/lane_change_rate_all_"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(dens, avlane_dens, color='orange')
@@ -163,15 +160,15 @@ def plot1(fname):
         plt.xlabel("System Density")
         plt.ylabel("Lane Change Rate of AVs")
         plt.title("Lane Change Rate (AV)")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/dens_lane_av_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/lane_change_rate_av_"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(dens, rvlane_dens, color='green')
         plt.plot(dens, rvlane_dens, 'green')
         plt.xlabel("System Density")
-        plt.ylabel("Lane Change Rate of RVs")
-        plt.title("Lane Change Rate (RV)")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/dens_lane_rv_"+str(nn[0])+".png")
+        plt.ylabel("Lane Change Rate of HVs")
+        plt.title("Lane Change Rate (HV)")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/lane_change_rate_hv_"+str(nn[0])+".png")
         plt.show()
         
         ###
@@ -187,30 +184,30 @@ def plot1(fname):
         plt.xlabel("Timesteps")
         plt.ylabel("Proportion of AV-AV headways")
         plt.title("Probability of AV-AV headways")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/prob_AV-AV_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/p_av_av_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, clnum)
         plt.xlabel("Timesteps")
         plt.ylabel("Number of Clusters")
         plt.title("Number of Clusters over time")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/cluster_num_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/cluster_num_per_time_step_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, avgclsize)
         plt.xlabel("Timesteps")
         plt.ylabel("Average Size of Clusters")
         plt.title("Average Size of Clusters over time")
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/cluster_size_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/cluster_size_per_time_step_"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(densityrv, flowrv, s= 1)
-        plt.xlabel("RV density")
-        plt.ylabel("RV flow")
+        plt.xlabel("HV density")
+        plt.ylabel("HV flow")
         plt.xlim(0,0.75)
         plt.ylim(0,0.45)
-        plt.title("Fundamental Diagram: RV")  
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv-1"+str(nn[0])+".png")
+        plt.title("Fundamental Diagram: HV")  
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_hv_data_"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(densityav, flowav, s= 1)
@@ -219,7 +216,7 @@ def plot1(fname):
         plt.xlim(0,0.35)
         plt.ylim(0, 0.25)
         plt.title("Fundamental Diagram: AV") 
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-1"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_data_"+str(nn[0])+".png")
         plt.show()
         
         
@@ -229,7 +226,7 @@ def plot1(fname):
         plt.title("Fundamental Diagram") 
         plt.xlim(0,1)
         plt.ylim(0, 0.6)
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-data"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_all_data"+str(nn[0])+".png")
         plt.show()
         
         flow_max_index = flow.index(max(flow))
@@ -239,9 +236,6 @@ def plot1(fname):
         x = density
         y =flow
         N= 3000
-        
-        def piecewise_linear(x, x0, y0, k1, k2):
-            return np.piecewise(x, [x < x0], [lambda x:k1*x + y0-k1*x0, lambda x:k2*x + y0-k2*x0])
         
         p0 = [np.mean(x), np.mean(y), 1, 1]
                     #weighing functions:            
@@ -261,8 +255,6 @@ def plot1(fname):
         y_crit = y0 #max flow
         x_crit = x0 #critical density
         x_jam = max(xd) #jam density
-        def x_intercept(slope, yi, xi):
-            return (slope*xi - yi)/ slope
         x_jam = min(x_intercept(k2, y0, x0),1)                                  #NEED TO RETURN THIS
         free_y = k1   #slope 1
         wave_v = k2    #slope 2
@@ -274,7 +266,7 @@ def plot1(fname):
         plt.xlabel('density')
         plt.ylabel('flow')
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-fit-1"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_fit_and_data_"+str(nn[0])+".png")
         plt.show()
         
         #print("[x_critical  y_max  free_flow_v  wave_speed]")
@@ -285,7 +277,7 @@ def plot1(fname):
         plt.xlabel('density')
         plt.ylabel('flow')
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-tri-1"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_fit_only_"+str(nn[0])+".png")
         plt.show()
         FD_arr.append(xd)
         FD_arr.append( piecewise_linear(xd, *p)) 
@@ -313,12 +305,12 @@ def plot1(fname):
         xdrv = np.linspace(0, 1, 3000)
         
         plt.plot(xdrv, piecewise_linear(xdrv, *prv), 'orange')     #need to return this
-        plt.xlabel('RV density')
-        plt.ylabel('RV flow')
+        plt.xlabel('HV density')
+        plt.ylabel('HV flow')
         plt.gca().set_xlim([0,max(densityrv)+0.05])
         plt.gca().set_ylim([0, max(flowrv) + 0.05])
-        plt.title('RV Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-rv-2"+str(nn[0])+".png")
+        plt.title('HV Fundamental diagram: ')
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_hv_fit_"+str(nn[0])+".png")
         plt.show()
         
         FD_RV_arr.append(xdrv)
@@ -347,7 +339,7 @@ def plot1(fname):
         plt.gca().set_xlim([0,max(densityav)+0.05])
         plt.gca().set_ylim([0, max(flowav) + 0.05])
         plt.title('AV Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-2"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_fit_"+str(nn[0])+".png")
         plt.show()
     
         FD_AV_arr.append(xdav)
@@ -364,7 +356,7 @@ def plot1(fname):
         plt.xlim(0,1)
         plt.legend()
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-rv-2"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_hv_fit_"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(density, flow, c='r', s=1, marker = "x", label='AV')  
@@ -374,7 +366,7 @@ def plot1(fname):
         plt.xlim(0,1)
         plt.legend(loc='upper right')
         plt.title('Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd-av-rv-data"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_hv_data"+str(nn[0])+".png")
         plt.show()
         
         return FD_arr, FD_RV_arr, FD_AV_arr, params
@@ -382,18 +374,15 @@ def plot1(fname):
         
 namea = "draft_2/experiment_2/data_files/fd_oppo.txt"
 nameb = "draft_2/experiment_2/data_files/fd_aware.txt"
-namec = "draft_2/experiment_2/data_files/fd_base.txt"
+nameba = "draft_2/experiment_2/data_files/fd_aware_oppo.txt"
+namec = "draft_2/experiment_2/data_files/fd_base_hvlike.txt"
+nameca = "draft_2/experiment_2/data_files/fd_base_hway.txt"
 
-m1 = plot1(namea)
-m2 = plot1(nameb)
-m3 = plot1(namec)
 
-"""
-plot_all = [namea, nameb, namec]
+plot_all = [namea, nameb, nameba, namec, nameca]
 for i in plot_all:
     plot1(i)
 
-"""
 """
 
 def plot2(arr1, arr2, arr3):

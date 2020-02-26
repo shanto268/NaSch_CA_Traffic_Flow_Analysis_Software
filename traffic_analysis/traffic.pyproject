@@ -1,0 +1,3 @@
+{
+    "files": ["traffic.py","gui_traffic.h","gui_traffic.cpp","gui_traffic.ui"]
+}

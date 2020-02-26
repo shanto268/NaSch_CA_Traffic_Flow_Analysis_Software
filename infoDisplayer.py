@@ -1,10 +1,11 @@
 #Only change name
-
 import pygame
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 from collections import Counter
-
+import os
+pwd = os.getcwd()
 
 class InfoDisplayer():
     def __init__(self, screen, road, simulationManager):
@@ -57,7 +58,10 @@ class InfoDisplayer():
             avprop = 0
         else: avprop = (av / inflow) * 100
         trigpoint = self.road.triggerbin
-        car_in_clus = self.road.cluster_num_car / carNum  #SAS new 2020
+        if carNum != 0:
+            car_in_clus = self.road.cluster_num_car / carNum  #SAS new 2020
+        else:
+            car_in_clus = -1 #SAS new 2020
         
         text = [self.text[0]]
        # text.append("LO: " + str(L0))
@@ -98,29 +102,42 @@ class InfoDisplayer():
         self.text = text
         self.renderLabels()
               
-        """ name change of filea and comments on filen"""     
+        """ name change of filea and comments on filen    
         
         name1 = "draft_2/experiment_1/data_files/low_dens_oppo.txt"
         name2 = "draft_2/experiment_1/data_files/low_dens_aware.txt"
-        name3 = "draft_2/experiment_1/data_files/low_dens_base.txt"
+        name2a = "draft_2/experiment_1/data_files/low_dens_aware_oppo.txt"
+        name3 = "draft_2/experiment_1/data_files/low_dens_base_hv_like.txt"
+        name3a = "draft_2/experiment_1/data_files/low_dens_base_hv_hway.txt"
         
         name4 = "draft_2/experiment_1/data_files/crit_dens_oppo.txt"
         name5 = "draft_2/experiment_1/data_files/crit_dens_aware.txt"
-        name6 = "draft_2/experiment_1/data_files/crit_dens_base.txt"
+        name5a = "draft_2/experiment_1/data_files/crit_dens_aware_oppo.txt"
+        name6 = "draft_2/experiment_1/data_files/crit_dens_base_hv_like.txt"
+        name6a = "draft_2/experiment_1/data_files/crit_dens_base_hv_hway.txt"
         
         name7 = "draft_2/experiment_1/data_files/high_dens_oppo.txt"
         name8 = "draft_2/experiment_1/data_files/high_dens_aware.txt"
-        name9 = "draft_2/experiment_1/data_files/high_dens_base.txt"
+        name8a = "draft_2/experiment_1/data_files/high_dens_aware_oppo.txt"
+        name9 = "draft_2/experiment_1/data_files/high_dens_base_hv_like.txt"
+        name9a = "draft_2/experiment_1/data_files/high_dens_base_hv_hway.txt"
         
         namea = "draft_2/experiment_2/data_files/fd_oppo.txt"
         nameb = "draft_2/experiment_2/data_files/fd_aware.txt"
-        namec = "draft_2/experiment_2/data_files/fd_base.txt"
+        nameba = "draft_2/experiment_2/data_files/fd_aware_oppo.txt"
+        namec = "draft_2/experiment_2/data_files/fd_base_hv_like.txt"
+        nameca = "draft_2/experiment_1/data_files/fd_base_hv_hway.txt"
         
         namei = "draft_2/experiment_1/data_files/mid_dens_oppo.txt"
         nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
-        nameiii = "draft_2/experiment_1/data_files/mid_dens_base.txt"
+        nameii = "draft_2/experiment_1/data_files/mid_dens_aware_oppo.txt"
+        nameiii = "draft_2/experiment_1/data_files/mid_dens_base_hv_like.txt"
+        nameiiia = "draft_2/experiment_1/data_files/mid_dens_base_hv_hway.txt"
+        """
         
-        file1 = open(name8,"a+")            
+        name = "draft_2/experiment_2/data_files/" + str(sys.argv[1])  #SAS 2020 Update: change 1 for exp 1 and 2 for exp 2
+                
+        file1 = open(name,"a+")            
         file1.write(str(density) + ", " + str(flow) + ","  + str(updates)  + ", "  + str(densityrv)  + ", "   + str(flowrv)  + ", "  + str(densityav)  + ", " + str(flowav)  + ", "   + str(cluster) + ", " + str(avgclus) + ", " + str(freq) + ", " + str(numlanechng) + ", " + str(avlane) + ", " + str(rvlane)+ ", " + str(car_in_clus) + "\n")                             
         file1.close()
 
@@ -140,4 +157,5 @@ class InfoDisplayer():
             self.screen.blit(label, (20, y))
             y += 20
                   
+    
         

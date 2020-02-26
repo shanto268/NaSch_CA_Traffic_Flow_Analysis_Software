@@ -1,49 +1,24 @@
 # -*- coding: utf-8 -*-
 """
 Experiment 1 plot
-
-Note: Make ylim consistent
 """
-from matplotlib.ticker import StrMethodFormatter
+
 import matplotlib.pyplot as plt
 import numpy as np
 import csv 
+from scipy import interpolate
 
+def smooth(y, box_pts):
+    box = np.ones(box_pts)/box_pts
+    y_smooth = np.convolve(y, box, mode='same')
+    return y_smooth
 
 def plot1(fname):
         fn = fname
         new_nn = fname.split('/')
         fn = new_nn[3]
         nn = fn.split('.')
- #       fr = str(nn[0]) + '.txt'
-        
-        """
-        #dnewdata = "0.0, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, "
-        dnewdata = "dnew line"
-        with open(fname, 'r') as f:
-            lines = f.read().split('\n')
-            #to delete line use "del lines[4]"
-            #to replace line:
-            for i in range(0,len(lines)):    
-                if (i % 100)  == 0 or (i % 100) < 19 and i > 0:  #or (i % 4)  == 1 :
-                    lines[i] = dnewdata
-        with open(fname,'w') as f:
-            f.write('\n'.join(lines))
 
-        with open(fname, "r") as f:
-            lines = f.readlines()
-        
-        with open(fname, "w") as f:
-            for line in lines:
-                if line.strip("\n") != "dnew line":
-                    f.write(line)
-                    
-        with open(fname, "r+") as f:     #fr change
-            a = f.read()
-        with open(fr, "w+") as f:     #fr change
-                f.write("0.0, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  \n" + a)
-        """
-        
         density = []
         flow = []
         updates = []
@@ -88,8 +63,13 @@ def plot1(fname):
         for i in clnum:
             cum_i += i
             cum_clnum.append(cum_i)
-    
+        
         print(str(nn[0]) + " average clusterability value: " + str(sum(carclus) / len(carclus)) )
+        
+        f1 = open("draft_2/experiment_1/data_files/clusterability.txt","a+") 
+        f1.write(str(nn[0]) + "," + str(sum(carclus) / len(carclus) + "\n") )
+        f1.close()
+        
         
         plt.plot(updates, totlane, 'black', label='Total')
         plt.plot(updates, avlane, 'red', label='AV')
@@ -99,29 +79,30 @@ def plot1(fname):
      #   plt.ylim(0,7000)
         plt.title("Number of Lane Changes over time")
         plt.legend()
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_lane_num_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_number_of_lane_changes_all_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, avlane)
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Lane Changes by AV")
         plt.title("Number of Lane Changes (AV) over time")
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_lane_av_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_number_lane_changes_av_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, rvlane)
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Lane Changes by RV")
-        plt.title("Number of Lane Changes (RV) over time")
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_lane_rv_"+str(nn[0])+".png")
+        plt.title("Number of Lane Changes (HV) over time")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/total_number_lane_changes_hv_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, carclus)
+        plt.plot(updates, smooth(carclus,500), 'r-', lw=1)
         plt.xlabel("Timesteps")
         plt.ylabel("Ratio")
         plt.title("Clusterability")
-        plt.ylim(0,0.4)
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/tclusterability_"+str(nn[0])+".png")
+      #  plt.ylim(0,0.4)
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/clusterability_"+str(nn[0])+".png")
         plt.show()
                 
         plt.plot(updates, cum_clnum )
@@ -136,23 +117,25 @@ def plot1(fname):
         plt.ylabel("Proportion of AV-AV headways")
         plt.title("Probability of AV-AV headways")
     #    plt.ylim(0,0.12)
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/prob_AV-AV_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/p_av_av_"+str(nn[0])+".png")
         plt.show()
         
         
         plt.plot(updates, clnum )
+        plt.plot(updates, smooth(clnum,500), 'r-', lw=1)
         plt.xlabel("Timesteps")
         plt.ylabel("Number of Clusters")
         plt.title("Number of Clusters over time")
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/cluster_num_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/cluster_numbers_per_time_step_"+str(nn[0])+".png")
         plt.show()
         
         plt.plot(updates, avgclsize)
         plt.xlabel("Timesteps")
         plt.ylabel("Average Size of Clusters")
+        plt.plot(updates, smooth(avgclsize,500), 'r-', lw=1)
     #    plt.ylim(0,16)
         plt.title("Average Size of Clusters over time")
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/cluster_size_"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/average_cluster_size_per_time_step_"+str(nn[0])+".png")
         plt.show()
         
         """     
@@ -172,17 +155,17 @@ def plot1(fname):
         """
         
         plt.scatter(densityrv, flowrv, s= 1)
-        plt.xlabel("RV density")
-        plt.ylabel("RV flow")
-        plt.title("Fundamental Diagram: RV")  
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/fd-rv"+str(nn[0])+".png")
+        plt.xlabel("HV density")
+        plt.ylabel("HV flow")
+        plt.title("Fundamental Diagram: HV")  
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/flow_density_plot_hv_"+str(nn[0])+".png")
         plt.show()
         
         plt.scatter(densityav, flowav, s= 1)
         plt.xlabel("AV density")
         plt.ylabel("AV flow")
         plt.title("Fundamental Diagram: AV") 
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/fd-av"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/flow_density_plot_av_"+str(nn[0])+".png")
         plt.show()
         
         
@@ -190,7 +173,7 @@ def plot1(fname):
         plt.xlabel("density")
         plt.ylabel("flow")
         plt.title("Fundamental Diagram")  
-        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/fd-data"+str(nn[0])+".png")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/flow_density_plot_all"+str(nn[0])+".png")
         plt.show()
         
         #still need to include code for different visualization
@@ -237,9 +220,7 @@ def histo(a,q3,nn):  # a is array, q3 is a string label for parameter name and n
     alphab = num # x axis 
     alphab = np.round(alphab,2)
     frequencies = freq # frequency of x axis values
-
-#    print(alphab)
-#    print(freq)
+    alphab.sort()
     
     sum_freq = 0
     sum_numer = 0
@@ -264,42 +245,58 @@ def histo(a,q3,nn):  # a is array, q3 is a string label for parameter name and n
     ax = plt.axes()
     ax.set_xticks(pos)
     ax.set_xticklabels(alphab)
-    
+    nto_(q3)
     plt.bar(pos, frequencies, width)
     plt.xlabel(q3)
     plt.ylabel("frequency")
-    plt.title("Histogram of " + str(q3))  
+    plt.title("Frequency of " + str(q3))  
    # plt.ylim(0,22)
     plt.xticks(rotation=45)
-    plt.savefig("draft_2/experiment_1/figures/"+str(nn)+"/hist"+str(q3)+str(nn)+".png")
+    plt.savefig("draft_2/experiment_1/figures/"+str(nn)+"/frequency_"+str(nto_(q3))+str(nn)+".png")
     plt.show()
     
-        
-name1 = "draft_2/experiment_1/data_files/low_dens_oppo.txt"
-name2 = "draft_2/experiment_1/data_files/low_dens_aware.txt"
-name3 = "draft_2/experiment_1/data_files/low_dens_base.txt"
 
-name4 = "draft_2/experiment_1/data_files/crit_dens_oppo.txt"
-name5 = "draft_2/experiment_1/data_files/crit_dens_aware.txt"
-name6 = "draft_2/experiment_1/data_files/crit_dens_base.txt"
+def nto_(q3):
+    q = []
+    for i in q3:
+        if i == " ":
+            i = "_"
+        q.append(i)
+    res = "".join(q)
+    return res
 
-name7 = "draft_2/experiment_1/data_files/high_dens_oppo.txt"
-name8 = "draft_2/experiment_1/data_files/high_dens_aware.txt"
-name9 = "draft_2/experiment_1/data_files/high_dens_base.txt"
 
-namei = "draft_2/experiment_1/data_files/mid_dens_oppo.txt"
-nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
-nameiii = "draft_2/experiment_1/data_files/mid_dens_base.txt"
+name1 = "draft_2/experiment_1/data_files/low_density_oppo.txt"
+name2 = "draft_2/experiment_1/data_files/low_density_aware.txt"
+name2a = "draft_2/experiment_1/data_files/low_density_aware_oppo.txt"
+name3 = "draft_2/experiment_1/data_files/low_density_base_hv_like.txt"
+name3a = "draft_2/experiment_1/data_files/low_density_base_hv_hway.txt"
+     
+name4 = "draft_2/experiment_1/data_files/crit_density_oppo.txt"
+name5 = "draft_2/experiment_1/data_files/crit_density_aware.txt"
+name5a = "draft_2/experiment_1/data_files/crit_density_aware_oppo.txt"
+name6 = "draft_2/experiment_1/data_files/crit_density_base_hv_like.txt"
+name6a = "draft_2/experiment_1/data_files/crit_density_base_hv_hway.txt"
+     
+name7 = "draft_2/experiment_1/data_files/high_density_oppo.txt"
+name8 = "draft_2/experiment_1/data_files/high_density_aware.txt"
+name8a = "draft_2/experiment_1/data_files/high_density_aware_oppo.txt"
+name9 = "draft_2/experiment_1/data_files/high_density_base_hv_like.txt"
+name9a = "draft_2/experiment_1/data_files/high_density_base_hv_hway.txt"
+     
+namei = "draft_2/experiment_1/data_files/mid_density_oppo.txt"
+nameii = "draft_2/experiment_1/data_files/mid_density_aware.txt"
+nameii = "draft_2/experiment_1/data_files/mid_density_aware_oppo.txt"
+nameiii = "draft_2/experiment_1/data_files/mid_density_base_hv_like.txt"
+nameiiia = "draft_2/experiment_1/data_files/mid_density_base_hv_hway.txt"
 
-m1 = plot1(name8)
-plot1(name9)
+#plot1(name9)
 #plot1(nameiii)
 
-"""
-plot_all = [name1,name2,name3,name4,name5,name6,name7,name8,name9]
+
+plot_all = [name1,name2,name2a,name3,name3a,name4,name5,name5a,name6,name6a,name7,name8,name8a,name9,name9a]
 
 for i in plot_all:
     plot1(i)
 
-"""
 

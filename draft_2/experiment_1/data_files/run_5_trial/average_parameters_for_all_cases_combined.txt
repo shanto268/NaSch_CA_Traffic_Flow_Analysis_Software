@@ -1,0 +1,19 @@
+Average of Mean cluster size is 5.77726574500768 for low_dens_oppo
+Average of Number of clusters is 1.0046082949308757 for low_dens_oppo
+Average of Time period of clusters is 15.894736842105264 for low_dens_oppo
+
+Average of Mean cluster size is 5.572031802120141 for crit_dens_oppo
+Average of Number of clusters is 1.6139575971731448 for crit_dens_oppo
+Average of Time period of clusters is 43.84 for crit_dens_oppo
+
+Average of Mean cluster size is 9.884350000000001 for high_dens_oppo
+Average of Number of clusters is 4.8308333333333335 for high_dens_oppo
+Average of Time period of clusters is 1199.0 for high_dens_oppo
+
+Average of Mean cluster size is 5.376528117359413 for low_dens_aware_oppo
+Average of Number of clusters is 1.0097799511002445 for low_dens_aware_oppo
+Average of Time period of clusters is 10.323529411764707 for low_dens_aware_oppo
+
+Average of Mean cluster size is 5.1487749287749285 for crit_dens_aware_oppo
+Average of Number of clusters is 1.4083570750237417 for crit_dens_aware_oppo
+Average of Time period of clusters is 16.862068965517242 for crit_dens_aware_oppo
