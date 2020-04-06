@@ -1,5 +1,4 @@
 import sys, pygame, simulation.road, simulation.speedLimits, random, importlib, config
-from simulation.car import Car
 from representation import Representation
 from simulationManager import SimulationManager
 from simulation.trafficGenerators import *

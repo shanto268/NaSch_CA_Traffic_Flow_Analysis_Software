@@ -1,0 +1,64 @@
+//Task 1: change velocity function in program to include max_veloc of cars and simulate all cases!!!
+
+//Veloc Model:
+In traditional CA,
+        V(car) = min(V(car)+1,max_speed) - probabilistic_croniker_delta_stopping
+        
+For opportunistic regime:
+        V(AV) = min(V(AV)+1, max_speed_AV) - 0
+        V(HV) = min(V(HV)+1, max_speed_HV) - probabilistic_croniker_delta_stopping
+        
+For aware regime:
+        V(AV) = min(V(AV)+1, max_speed_AV, v_headway) - probablistics_croniker_delta_stopping
+        V(HV) = min(V(HV)+1, max_speed_HV, v_headway) - probabilistic_croniker_delta_stopping
+        v_headway = V_AV-AV || V_AV-HV || V_HV=car
+
+For opportunistic-aware regime:
+        V(AV) = min(V(AV)+1, max_speed_AV, v_headway) - 0
+        V(HV) = min(V(HV)+1, max_speed_HV, v_headway) - probabilistic_croniker_delta_stopping
+        v_headway = V_AV-AV || V_AV-HV || V_HV=car
+
+For base scenario hway:
+        V(AV) = min(V(AV)+1, max_speed_AV, v_headway) - probablistics_croniker_delta_stopping
+        V(HV) = min(V(HV)+1, max_speed_HV, v_headway) - probabilistic_croniker_delta_stopping
+        v_headway = V_AV=car || V_HV=car
+
+For base scenario hvlike:
+        V(AV) = min(V(AV)+1, max_speed_AV) - probablistics_croniker_delta_stopping
+        V(HV) = min(V(HV)+1, max_speed_HV) - probabilistic_croniker_delta_stopping
+        V(HV) = V(AV)
+
+//Paper Organisation and layout:
+>abstract 
+>introduce
+>talk about CA model
+>introduce our models, the equations and what it encapsulates
+>introduce concept of cluster, its observation and definition
+>experiment 1:steady state
+        >> purpose:
+        >> results:
+        >> interpretation:
+        >> evidence:
+>experiment 2:evolutionary state
+        >> purpose:
+        >> results:
+        >> interpretation:
+        >> evidence:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Analysis points ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+clusterability, p(av-av), time values, lane change numbers, lane change rate, fd, cluster number, cluster size
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+>discussion:
+        what our work means as regards to AV design, traffic laws
+        evidence to back up our reasoning
+>conclusion:
+        may be precursor to future work
+
+// To Do:
+>>write on overleaf
+>>think about figures to upload (single, all cases, histo, smooth)
+>>>fix figure representation 
+>>>organize data and figs first
+>>>upload overleaf with figures
+$$ email Dr. Li as soon as this is done!
+>>>after results uploaded, analyze and write analysis.
+>>>finish paper!

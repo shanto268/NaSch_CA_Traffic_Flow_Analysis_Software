@@ -25,6 +25,35 @@ def piecewise_linear(x, x0, y0, k1, k2):
 def x_intercept(slope, yi, xi):
     return (slope*xi - yi)/ slope
 
+def histo(a,q3,nn):  # a is array, q3 is a string label for parameter name and nn is nn[0]
+    a = list(filter(lambda x: x != 0.0, a)) #array with zero remobed
+    b = [[x,a.count(x)] for x in set(a)]
+    num = []
+    freq = []
+    
+    for i in b:
+        num.append(i[0])
+        freq.append(i[1])
+    
+    alphab = num # x axis 
+    alphab = np.round(alphab,2)
+    alphab.sort()
+    
+    sum_freq = 0
+    sum_numer = 0
+    
+    for i in range(len(alphab)):
+        sum_freq += freq[i]
+        sum_numer += (alphab[i]*freq[i])
+    
+    if sum_freq == 0:
+        w_mean = 0
+    else:
+        w_mean = ( sum_numer / sum_freq )
+        
+    print("Average of " + str(q3) + " is "  + str(w_mean) + " for " + str(nn) + "\n")
+    
+
 def plot1(fname):
         fn = fname
         new_nn = fname.split('/')
@@ -76,27 +105,37 @@ def plot1(fname):
         totlane_dens = [totlane_dens[0]] + [totlane_dens[i+1] - totlane_dens[i] for i in range(len(totlane_dens)-1)]
         avlane_dens = [avlane_dens[0]] + [avlane_dens[i+1] - avlane_dens[i] for i in range(len(avlane_dens)-1)]
         rvlane_dens = [rvlane_dens[0]] + [rvlane_dens[i+1] - rvlane_dens[i] for i in range(len(rvlane_dens)-1)]
+        PAV = prob[::99]
+        delPAV = [0] + [prob[i+1]-prob[i] for i in range(len(PAV)-1)]
         
-        print("av: " + str(avlane_dens))
-        print("rv: " + str(rvlane_dens))
-        print("\n\n")
+        plt.scatter(dens, delPAV)
+        plt.plot(dens, delPAV)
+        plt.title("Change in P(AV-AV)")
+        plt.ylabel("Del P(AV-AV)")
+        plt.xlabel("System Density")
+        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/del_p(av)_all_"+str(nn[0])+".png")
+        plt.show()
+        
+    #    print("av: " + str(avlane_dens))
+    #    print("rv: " + str(rvlane_dens))
+   #     print("\n\n")
         densityrv_ = densityrv[::99]
         densityav_ = densityav[::99]
         numrv = [round(300*i) for i in densityrv_]
         numav = [round(300*i) for i in densityav_] 
         
-        print("numav: " + str(numav))
-        print("numrv: " + str(numrv))
-        print("\n\n")
+   #     print("numav: " + str(numav))
+   #     print("numrv: " + str(numrv))
+   #     print("\n\n")
         
         for i in range(len(avlane_dens)):
             avlane_dens[i] = avlane_dens[i] / numav[i] 
             rvlane_dens[i] = rvlane_dens[i] / numrv[i] 
             totlane_dens[i] = totlane_dens[i] / (numrv[i] + numav[i] )
       #  print("total: " + str(totlane_dens))
-        print("av: " + str(avlane_dens))
-        print("rv: " + str(rvlane_dens))
-
+    #    print("av: " + str(avlane_dens))
+   #     print("rv: " + str(rvlane_dens))
+            
         cum_clnum = []
         cum_i = 0
         for i in clnum:
@@ -104,14 +143,35 @@ def plot1(fname):
             cum_clnum.append(cum_i)
             
         carclus = list(filter(lambda a: a != -1, carclus))
-          
+        
+        a = avgclsize
+        tcls = []
+        index = []
+        t = 0
+        for i in range(len(a)):
+            if a[i] != 0:
+                index.append(i)
+        t = 0
+        for i in range(len(index)-1):
+            j = i + 1
+            if j <= len(index):
+                if (index[j] - index[i]) == 1:
+                    t += 1
+                    if j == len(index) - 1:
+                        tcls.append(t)
+                else:
+                    tcls.append(t)
+                    t = 0
+        histo(tcls, "Time period of clusters", nn[0])
+        
+        
         plt.plot(updates, totlane, 'black', label='Total')
         plt.plot(updates, avlane, 'red', label='AV')
         plt.plot(updates, rvlane, 'blue', label='RV')
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Lane Changes")
         plt.title("Number of Lane Changes over time")
-        plt.ylim(0,7000)
+        plt.ylim(0,10000)
         plt.legend()
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_number_of_lane_changes_all_"+str(nn[0])+".png")
         plt.show()
@@ -130,8 +190,8 @@ def plot1(fname):
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/total_number_lane_changes_hv_"+str(nn[0])+".png")
         plt.show()
         
-        plt.plot([i for i in range(len(carclus))], carclus)
-        plt.plot([i for i in range(len(carclus))], smooth(carclus,500), 'r-', lw=1)
+        plt.bar([i for i in range(len(carclus))], carclus)
+     #   plt.plot([i for i in range(len(carclus))], smooth(carclus,500), 'r-', lw=1)
         plt.xlabel("Timesteps")
         plt.ylabel("Ratio")
         plt.title("Clusterability")
@@ -173,7 +233,7 @@ def plot1(fname):
         
         ###
         
-        plt.plot(updates, cum_clnum )
+        plt.bar(updates, cum_clnum )
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Clusters")
         plt.title("Number of Clusters over time")
@@ -187,14 +247,14 @@ def plot1(fname):
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/p_av_av_"+str(nn[0])+".png")
         plt.show()
         
-        plt.plot(updates, clnum)
+        plt.bar(updates, clnum)
         plt.xlabel("Timesteps")
         plt.ylabel("Number of Clusters")
         plt.title("Number of Clusters over time")
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/cluster_num_per_time_step_"+str(nn[0])+".png")
         plt.show()
         
-        plt.plot(updates, avgclsize)
+        plt.bar(updates, avgclsize)
         plt.xlabel("Timesteps")
         plt.ylabel("Average Size of Clusters")
         plt.title("Average Size of Clusters over time")
@@ -310,7 +370,7 @@ def plot1(fname):
         plt.gca().set_xlim([0,max(densityrv)+0.05])
         plt.gca().set_ylim([0, max(flowrv) + 0.05])
         plt.title('HV Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_hv_fit_"+str(nn[0])+".png")
+       # plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_hv_fit_"+str(nn[0])+".png")
         plt.show()
         
         FD_RV_arr.append(xdrv)
@@ -339,7 +399,7 @@ def plot1(fname):
         plt.gca().set_xlim([0,max(densityav)+0.05])
         plt.gca().set_ylim([0, max(flowav) + 0.05])
         plt.title('AV Fundamental diagram: ')
-        plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_fit_"+str(nn[0])+".png")
+      #  plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_fit_"+str(nn[0])+".png")
         plt.show()
     
         FD_AV_arr.append(xdav)
@@ -359,9 +419,9 @@ def plot1(fname):
         plt.savefig("draft_2/experiment_2/figures/"+str(nn[0])+"/fd_av_hv_fit_"+str(nn[0])+".png")
         plt.show()
         
-        plt.scatter(density, flow, c='r', s=1, marker = "x", label='AV')  
-        plt.scatter(densityrv, flowrv, c='b', s=1, marker = "o", label='RV')  
-        plt.scatter(densityav, flowav, c='g', s=1, marker = ".", label='Overall')  
+        plt.scatter(density, flow, c='r', s=1, marker = "x", label='Overall')  
+        plt.scatter(densityrv, flowrv, c='b', s=1, marker = "o", label='HV')  
+        plt.scatter(densityav, flowav, c='g', s=1, marker = ".", label='AV')  
         plt.ylim(0, 0.65)
         plt.xlim(0,1)
         plt.legend(loc='upper right')
@@ -379,9 +439,12 @@ namec = "draft_2/experiment_2/data_files/fd_base_hvlike.txt"
 nameca = "draft_2/experiment_2/data_files/fd_base_hway.txt"
 
 
+#plot1(namea)
+
 plot_all = [namea, nameb, nameba, namec, nameca]
 for i in plot_all:
     plot1(i)
+
 
 """
 

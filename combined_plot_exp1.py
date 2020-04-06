@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import scipy, matplotlib
+import pandas as pd
 
 def data(fname):
     density = []
@@ -398,35 +399,29 @@ def plotter(f1,f2,f3,f4,f5,f6,f7,f8,f9): #f4 represents density string
     plt.show()
 """
 def plot_all():
-        name1 = "draft_2/experiment_1/data_files/low_dens_oppo.txt"
-        name2 = "draft_2/experiment_1/data_files/low_dens_aware.txt"
-        name2a = "draft_2/experiment_1/data_files/low_dens_aware_oppo.txt"
-        name3 = "draft_2/experiment_1/data_files/low_dens_base_hv_like.txt"
-        name3a = "draft_2/experiment_1/data_files/low_dens_base_hv_hway.txt"
-
-        name4 = "draft_2/experiment_1/data_files/crit_dens_oppo.txt"
-        name5 = "draft_2/experiment_1/data_files/crit_dens_aware.txt"
-        name5a = "draft_2/experiment_1/data_files/crit_dens_aware_oppo.txt"
-        name6 = "draft_2/experiment_1/data_files/crit_dens_base_hv_like.txt"
-        name6a = "draft_2/experiment_1/data_files/crit_dens_base_hv_hway.txt"
-
-        name7 = "draft_2/experiment_1/data_files/high_dens_oppo.txt"
-        name8 = "draft_2/experiment_1/data_files/high_dens_aware.txt"
-        name8a = "draft_2/experiment_1/data_files/high_dens_aware_oppo.txt"
-        name9 = "draft_2/experiment_1/data_files/high_dens_base_hv_like.txt"
-        name9a = "draft_2/experiment_1/data_files/high_dens_base_hv_hway.txt"
-
-        namea = "draft_2/experiment_2/data_files/fd_oppo.txt"
-        nameb = "draft_2/experiment_2/data_files/fd_aware.txt"
-        nameba = "draft_2/experiment_2/data_files/fd_aware_oppo.txt"
-        namec = "draft_2/experiment_2/data_files/fd_base_hv_like.txt"
-        nameca = "draft_2/experiment_1/data_files/fd_base_hv_hway.txt"
-
-        namei = "draft_2/experiment_1/data_files/mid_dens_oppo.txt"
-        nameii = "draft_2/experiment_1/data_files/mid_dens_aware.txt"
-        nameii = "draft_2/experiment_1/data_files/mid_dens_aware_oppo.txt"
-        nameiii = "draft_2/experiment_1/data_files/mid_dens_base_hv_like.txt"
-        nameiiia = "draft_2/experiment_1/data_files/mid_dens_base_hv_hway.txt"
+        name1 = "draft_2/experiment_1/data_files/low_density_oppo.txt"
+        name2 = "draft_2/experiment_1/data_files/low_density_aware.txt"
+        name2a = "draft_2/experiment_1/data_files/low_density_aware_oppo.txt"
+        name3 = "draft_2/experiment_1/data_files/low_density_base_hv_like.txt"
+        name3a = "draft_2/experiment_1/data_files/low_density_base_hv_hway.txt"
+             
+        name4 = "draft_2/experiment_1/data_files/crit_density_oppo.txt"
+        name5 = "draft_2/experiment_1/data_files/crit_density_aware.txt"
+        name5a = "draft_2/experiment_1/data_files/crit_density_aware_oppo.txt"
+        name6 = "draft_2/experiment_1/data_files/crit_density_base_hv_like.txt"
+        name6a = "draft_2/experiment_1/data_files/crit_density_base_hv_hway.txt"
+             
+        name7 = "draft_2/experiment_1/data_files/high_density_oppo.txt"
+        name8 = "draft_2/experiment_1/data_files/high_density_aware.txt"
+        name8a = "draft_2/experiment_1/data_files/high_density_aware_oppo.txt"
+        name9 = "draft_2/experiment_1/data_files/high_density_base_hv_like.txt"
+        name9a = "draft_2/experiment_1/data_files/high_density_base_hv_hway.txt"
+             
+        namei = "draft_2/experiment_1/data_files/mid_density_oppo.txt"
+        nameii = "draft_2/experiment_1/data_files/mid_density_aware.txt"
+        nameii = "draft_2/experiment_1/data_files/mid_density_aware_oppo.txt"
+        nameiii = "draft_2/experiment_1/data_files/mid_density_base_hv_like.txt"
+        nameiiia = "draft_2/experiment_1/data_files/mid_density_base_hv_hway.txt"
 
         plotter(name1,name2,name3,name4,name5,name6,name7,name8,name9)
 

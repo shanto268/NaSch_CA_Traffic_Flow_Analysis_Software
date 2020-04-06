@@ -46,7 +46,7 @@ mv car.py car_nh.py
 echo Simulation files restored
 echo
 cd ..
-echo All simulation cases for Base Scenarior - Smaller Headway - model is over
+echo All simulation cases for Base Scenario - Smaller Headway - model is over
 
 #echo Executing analysis files now....
 # execute plot files

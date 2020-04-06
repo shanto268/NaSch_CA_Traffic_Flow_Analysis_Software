@@ -1,0 +1,1 @@
+Change info directory in infoDisplayer.py

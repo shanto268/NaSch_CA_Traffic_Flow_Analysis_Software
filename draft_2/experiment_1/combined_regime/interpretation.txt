@@ -1,0 +1,40 @@
+Define Clusterability
+
+Similar cluster size and number BUT different survival time. 
+
+Moving average plots.
+
+The survival time, however, gives us a key insight into the nature of the clusters formed in these different AV models.
+
+What survival time means and why certain model have higher survival time than others. Refer lane change dynamics here and P(Av-av)
+
+P(AV-AV) tendency of AV to seek out and follow another AV
+
+LANE CHANGE DYNAMICS:
+Low density:hvLaneChangeRank -> b1, b2, na, o, nao 
+Low density:avLaneChangeRateRank -> oppo and nao same, bh and na same, base least
+total lane change: same rank as avLCRR
+
+Crit density:hvLaneChangeRateRank -> bh > b > oppo = na > nao
+Crit density:avLaneChangeRateRank -> oppo = nap ~ bh > na > b
+Total lane change: bh > oppo = b > na > nao
+Numbers for nao extremely low
+
+
+Concept of intelligent regime dependent mobility/ behaviour
+
+
+
+
+
+
+
+Deeper analysis of Low Density
+
+EXPERIMENT 2!
+
+Include timestep and density relation
+
+
+Implications:
+NAO: saves travel fuel for everyone, more safe, better for traffic 

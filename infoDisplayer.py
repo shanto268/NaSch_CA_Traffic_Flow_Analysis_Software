@@ -1,4 +1,4 @@
-#Only change name
+ey#Only change name
 import pygame
 import matplotlib.pyplot as plt
 import numpy as np
@@ -135,7 +135,7 @@ class InfoDisplayer():
         nameiiia = "draft_2/experiment_1/data_files/mid_dens_base_hv_hway.txt"
         """
         
-        name = "draft_2/experiment_2/data_files/" + str(sys.argv[1])  #SAS 2020 Update: change 1 for exp 1 and 2 for exp 2
+        name = "draft_2/experiment_2/data_files/new/" + str(sys.argv[1])  #SAS 2020 Update: change 1 for exp 1 and 2 for exp 2
                 
         file1 = open(name,"a+")            
         file1.write(str(density) + ", " + str(flow) + ","  + str(updates)  + ", "  + str(densityrv)  + ", "   + str(flowrv)  + ", "  + str(densityav)  + ", " + str(flowav)  + ", "   + str(cluster) + ", " + str(avgclus) + ", " + str(freq) + ", " + str(numlanechng) + ", " + str(avlane) + ", " + str(rvlane)+ ", " + str(car_in_clus) + "\n")                             

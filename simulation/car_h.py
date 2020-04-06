@@ -221,8 +221,8 @@ class Car:
         if self.pos[0] < (self.road.getLength() - 5) and self.pos[0] >= 0:
             self.velocity = self.calcNewVelocity()
             self.cluster()   # need to use distancetonextthing
-            if self.velocity >= max_hv and self.vtype == 1: 
-                self.velocity = max_hv                                                                           
+        #    if self.velocity >= max_hv and self.vtype == 1: 
+        #        self.velocity = max_hv                                                                           
             if self.velocity > 0 and random.random() <= Car.slowDownProbability:
                 self.velocity -= 1
             self.pos = self.pos[0] + self.velocity, self.pos[1]  
@@ -349,7 +349,6 @@ class Car:
             distanceToPrevCar = self.pos[0] - prevCar.pos[0] #safety check 2
             return distanceToPrevCar > prevCar.velocity #True only if no collision
            
-    
     def _safetycheck(self,sourceLane, destLane):
         prevCar = self.road.findPrevCar( (self.pos[0], destLane) )  #NaSch lane change rule safety
         if prevCar == None: return True #safety check 1

@@ -20,7 +20,7 @@ class Car:
         self.road = road
         self.pos = pos
         self.prevPos = pos
-        self.vtype = vtype #vtype = 1 RV ; VTYPE = 2 AV
+        self.vtype = vtype #vtype = 1 HV ; VTYPE = 2 AV
         self.time = 0
         self.lanechngup = 0
         self.lanechngdwn = 0
@@ -221,8 +221,8 @@ class Car:
         if self.pos[0] < (self.road.getLength() - 5) and self.pos[0] >= 0:
             self.velocity = self.calcNewVelocity()
             self.cluster()   # need to use distancetonextthing
-            if self.velocity >= max_hv and self.vtype == 1: 
-                self.velocity = max_hv                                                                  
+       #     if self.velocity >= max_hv and self.vtype == 1: 
+        #        self.velocity = max_hv                                                                  
             if self.velocity > 0 and random.random() <= Car.slowDownProbability:
                 self.velocity -= 1
             self.pos = self.pos[0] + self.velocity, self.pos[1]  
@@ -238,18 +238,20 @@ class Car:
                 self.pos = self.pos[0] + self.velocity, self.pos[1] 
         return self.pos    
 
-
-
-
     def newvelocity(self): 
-        return min(self.velocity + 1, self.road.d2n(self.pos), self.v1leadcopy(self.pos)) #regular v (M2)
+        return min(self.velocity + 1, self.road.d2n(self.pos), self.v1leadcopy(self.pos),self.maxSpeedofVehicle()) #regular v (M2)
        # return min(self.velocity + 1, self.road.d2n(self.pos), self.v1lead(self.pos)) # M1
 
     def calcNewVelocity(self):
-        return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2leadcopy(self.pos)) #regular v  (M2)
+        return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2leadcopy(self.pos),self.maxSpeedofVehicle()) #regular v  (M2)
        # return min(self.velocity + 1, self.road.getMaxSpeedAt(self.pos), self.v2lead(self.pos)) # M1
     
-    
+    def maxSpeedofVehicle(self): #SAS new update 2020
+        if self.vtype == 1:
+            return max_hv
+        else:
+            return max_av_av
+        
     def v2lead(self, pos): #regular case
         if self.vtype == 1: #RV
             self.freqtot += 1

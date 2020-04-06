@@ -1,45 +1,66 @@
-Average of Mean cluster size is 5.4905063291139244 for low_density_oppo
-Average of Number of clusters is 1.0901898734177216 for low_density_oppo
-Average of Time period of clusters is 13.523809523809524 for low_density_oppo
+Average of Mean cluster size is 5.702348066298343 for low_density_oppo
+Average of Number of clusters is 1.042817679558011 for low_density_oppo
+Average of Time period of clusters is 17.153846153846153 for low_density_oppo
+
 Average of Mean cluster size is 5.074074074074074 for low_density_aware
 Average of Number of clusters is 1.0757575757575757 for low_density_aware
 Average of Time period of clusters is 7.013698630136986 for low_density_aware
+
 Average of Mean cluster size is 5.9624 for low_density_aware_oppo
 Average of Number of clusters is 1.0384 for low_density_aware_oppo
 Average of Time period of clusters is 20.75 for low_density_aware_oppo
-Average of Mean cluster size is 4.723364485981309 for low_density_base_hv_like
-Average of Number of clusters is 1.0205607476635514 for low_density_base_hv_like
-Average of Time period of clusters is 6.069444444444445 for low_density_base_hv_like
-Average of Mean cluster size is 4.723364485981309 for low_density_base_hv_hway
-Average of Number of clusters is 1.0205607476635514 for low_density_base_hv_hway
-Average of Time period of clusters is 6.069444444444445 for low_density_base_hv_hway
-Average of Mean cluster size is 5.149811804961506 for crit_density_oppo
-Average of Number of clusters is 1.958939264328486 for crit_density_oppo
-Average of Time period of clusters is 61.89473684210526 for crit_density_oppo
+
+Average of Mean cluster size is 0 for low_density_base_hv_like
+Average of Number of clusters is 0 for low_density_base_hv_like
+Average of Time period of clusters is 0 for low_density_base_hv_like
+
+Average of Mean cluster size is 4.9445438282647585 for low_density_base_hv_hway
+Average of Number of clusters is 1.0518783542039356 for low_density_base_hv_hway
+Average of Time period of clusters is 6.1466666666666665 for low_density_base_hv_hway
+
+
+
+
+Average of Mean cluster size is 5.117784380305603 for crit_density_oppo
+Average of Number of clusters is 2.0526315789473686 for crit_density_oppo
+Average of Time period of clusters is 61.94736842105263 for crit_density_oppo
+
 Average of Mean cluster size is 4.948604240282685 for crit_density_aware
 Average of Number of clusters is 1.6448763250883391 for crit_density_aware
 Average of Time period of clusters is 31.457142857142856 for crit_density_aware
+
 Average of Mean cluster size is 5.451696202531646 for crit_density_aware_oppo
 Average of Number of clusters is 1.8877637130801688 for crit_density_aware_oppo
 Average of Time period of clusters is 97.66666666666667 for crit_density_aware_oppo
-Average of Mean cluster size is 4.89409691629956 for crit_density_base_hv_like
-Average of Number of clusters is 1.637885462555066 for crit_density_base_hv_like
-Average of Time period of clusters is 25.27906976744186 for crit_density_base_hv_like
-Average of Mean cluster size is 4.89409691629956 for crit_density_base_hv_hway
-Average of Number of clusters is 1.637885462555066 for crit_density_base_hv_hway
-Average of Time period of clusters is 25.27906976744186 for crit_density_base_hv_hway
+
+Average of Mean cluster size is 5.395946196660481 for crit_density_base_hv_like
+Average of Number of clusters is 1.5296846011131726 for crit_density_base_hv_like
+Average of Time period of clusters is 17.75438596491228 for crit_density_base_hv_like
+
+Average of Mean cluster size is 4.993061594202898 for crit_density_base_hv_hway
+Average of Number of clusters is 1.6911231884057971 for crit_density_base_hv_hway
+Average of Time period of clusters is 23.304347826086957 for crit_density_base_hv_hway
+
+
+
+
+
 Average of Mean cluster size is 13.123583333333332 for high_density_oppo
 Average of Number of clusters is 4.851666666666667 for high_density_oppo
 Average of Time period of clusters is 1199.0 for high_density_oppo
+
 Average of Mean cluster size is 12.098600000000001 for high_density_aware
 Average of Number of clusters is 4.818333333333333 for high_density_aware
 Average of Time period of clusters is 1199.0 for high_density_aware
+
 Average of Mean cluster size is 12.54565833333333 for high_density_aware_oppo
 Average of Number of clusters is 5.0441666666666665 for high_density_aware_oppo
 Average of Time period of clusters is 1199.0 for high_density_aware_oppo
+
 Average of Mean cluster size is 11.632541666666667 for high_density_base_hv_like
 Average of Number of clusters is 4.683333333333334 for high_density_base_hv_like
 Average of Time period of clusters is 1199.0 for high_density_base_hv_like
+
 Average of Mean cluster size is 11.632541666666667 for high_density_base_hv_hway
 Average of Number of clusters is 4.683333333333334 for high_density_base_hv_hway
 Average of Time period of clusters is 1199.0 for high_density_base_hv_hway

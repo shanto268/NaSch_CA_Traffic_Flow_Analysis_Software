@@ -13,6 +13,12 @@ def smooth(y, box_pts):
     y_smooth = np.convolve(y, box, mode='same')
     return y_smooth
 
+def movingaverage (values, window):
+    weights = np.repeat(1.0, window)/window
+    sma = np.convolve(values, weights, 'valid')
+    return sma
+
+ 
 def plot1(fname):
         fn = fname
         new_nn = fname.split('/')
@@ -67,7 +73,7 @@ def plot1(fname):
         print(str(nn[0]) + " average clusterability value: " + str(sum(carclus) / len(carclus)) )
         
         f1 = open("draft_2/experiment_1/data_files/clusterability.txt","a+") 
-        f1.write(str(nn[0]) + "," + str(sum(carclus) / len(carclus) + "\n") )
+        f1.write(str(nn[0]) + "," + str(sum(carclus) / len(carclus)) + "\n") 
         f1.close()
         
         
@@ -97,14 +103,23 @@ def plot1(fname):
         plt.show()
         
         plt.plot(updates, carclus)
-        plt.plot(updates, smooth(carclus,500), 'r-', lw=1)
+    #    plt.plot(updates, smooth(carclus,500), 'r-', lw=1)
         plt.xlabel("Timesteps")
         plt.ylabel("Ratio")
         plt.title("Clusterability")
       #  plt.ylim(0,0.4)
         plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/clusterability_"+str(nn[0])+".png")
         plt.show()
-                
+        
+        
+        plt.bar(updates, carclus)
+        plt.xlabel("Timesteps")
+        plt.ylabel("Ratio")
+        plt.title("Clusterability")
+        plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/clusterability_new"+str(nn[0])+".png")
+      #  plt.ylim(0,0.4)
+        plt.show()
+        
         plt.plot(updates, cum_clnum )
         plt.xlabel("Timesteps")
         plt.ylabel("Total Number of Clusters")
@@ -121,18 +136,18 @@ def plot1(fname):
         plt.show()
         
         
-        plt.plot(updates, clnum )
-        plt.plot(updates, smooth(clnum,500), 'r-', lw=1)
+        plt.bar(updates, clnum )
+     #   plt.plot(updates, smooth(clnum,500), 'r-', lw=1)
         plt.xlabel("Timesteps")
         plt.ylabel("Number of Clusters")
         plt.title("Number of Clusters over time")
         plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/cluster_numbers_per_time_step_"+str(nn[0])+".png")
         plt.show()
         
-        plt.plot(updates, avgclsize)
+        plt.bar(updates, avgclsize)
         plt.xlabel("Timesteps")
         plt.ylabel("Average Size of Clusters")
-        plt.plot(updates, smooth(avgclsize,500), 'r-', lw=1)
+     #   plt.plot(updates, smooth(avgclsize,500), 'r-', lw=1)
     #    plt.ylim(0,16)
         plt.title("Average Size of Clusters over time")
         plt.savefig("draft_2/experiment_1/figures/"+str(nn[0])+"/average_cluster_size_per_time_step_"+str(nn[0])+".png")
@@ -290,13 +305,11 @@ nameii = "draft_2/experiment_1/data_files/mid_density_aware_oppo.txt"
 nameiii = "draft_2/experiment_1/data_files/mid_density_base_hv_like.txt"
 nameiiia = "draft_2/experiment_1/data_files/mid_density_base_hv_hway.txt"
 
-#plot1(name9)
 #plot1(nameiii)
 
+def plotAll():
+    plot_all = [name1,name2,name2a,name3,name3a,name4,name5,name5a,name6,name6a,name7,name8,name8a,name9,name9a]
+    for i in plot_all:
+        plot1(i)
 
-plot_all = [name1,name2,name2a,name3,name3a,name4,name5,name5a,name6,name6a,name7,name8,name8a,name9,name9a]
-
-for i in plot_all:
-    plot1(i)
-
-
+plotAll()

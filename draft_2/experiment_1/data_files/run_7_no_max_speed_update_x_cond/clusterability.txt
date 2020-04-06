@@ -1,0 +1,16 @@
+high_density_base_hv_like,0.2797314814814825
+low_density_oppo,0.05465277777777768
+low_density_aware,0.11652777777777788
+low_density_aware_oppo,0.14052083333333334
+low_density_base_hv_like,0.004756944444444444
+low_density_base_hv_hway,0.004756944444444444
+crit_density_oppo,0.17715277777777738
+crit_density_aware,0.13772222222222238
+crit_density_aware_oppo,0.18222222222222198
+crit_density_base_hv_like,0.1840416666666666
+crit_density_base_hv_hway,0.1840416666666666
+high_density_oppo,0.2826759259259269
+high_density_aware,0.2790092592592602
+high_density_aware_oppo,0.2815462962962972
+high_density_base_hv_like,0.2797314814814825
+high_density_base_hv_hway,0.2797314814814825
