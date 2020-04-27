@@ -23,6 +23,7 @@ class SimulationManager:
             self.acc = self.acc % (self.updateFrame + 0)
             self.makeStep_constant_density()  #comment this for increasing density
           #  self.makeStep_increasing_density()  #uncomment this for increasing density
+        print("acc ", dt)
         self.endSimulation() #comment for increasing density
    #     self.endSim_fd() #uncomment for increasing density
 

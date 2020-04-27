@@ -38,6 +38,7 @@ while simulation.running:
             simulation.processKey(event.key)
     clock.tick_busy_loop(config.maxFps)#.tick_busy_loop = updates the clock
     dt = clock.get_time()# —	time used in the previous tick
+    print(dt)
     simulation.update(dt) #updates logistics
     representation.draw(dt * simulation.timeFactor) #updates graphics
   #  representation.batch(dt * simulation.timeFactor) #batch mode

@@ -3,7 +3,6 @@
 Experiment 2 plot
 
 Note: remove -1 from clusterability
-
 """
 
 from scipy import optimize
@@ -439,11 +438,11 @@ namec = "draft_2/experiment_2/data_files/fd_base_hvlike.txt"
 nameca = "draft_2/experiment_2/data_files/fd_base_hway.txt"
 
 
-#plot1(namea)
+plot1(namea)
 
-plot_all = [namea, nameb, nameba, namec, nameca]
-for i in plot_all:
-    plot1(i)
+#plot_all = [namea, nameb, nameba, namec, nameca]
+#for i in plot_all:
+#    plot1(i)
 
 
 """

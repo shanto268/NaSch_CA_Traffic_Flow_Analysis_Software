@@ -162,7 +162,8 @@ class Road:
     def flipLanes(self):#makes the road empty for new cars to enter and propagates existing cars in the lanes
         self.lanes = self.updatedLanes
         self.updatedLanes = Road.generateEmptyLanes(self.getLanesCount(), self.getLength())
-        
+    
+
     def triggerplot1(self):
         self.triggerbin = 1
     def triggerplot2(self):

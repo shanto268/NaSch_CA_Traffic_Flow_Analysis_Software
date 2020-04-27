@@ -1,4 +1,4 @@
-ey#Only change name
+#Only change name
 import pygame
 import matplotlib.pyplot as plt
 import numpy as np
