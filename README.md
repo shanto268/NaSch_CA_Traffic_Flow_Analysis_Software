@@ -21,7 +21,7 @@ The current version of the software deals with simulating heterogeneous traffic 
 ## Summary of Files and Directories
 The following outlines all the relevant directories and files for the software.
 
-** Base directory: ** This is the folder where all the directories are found.
+**Base directory:** This is the folder where all the directories are found.
 - nagel.py
  This code is the initiator of the entire software. It starts the simulation engine running on pygame and returns control to the rest of the program files.
 - representation.py
@@ -41,7 +41,7 @@ This code is responsible for updating the traffic flow simulations. It constantl
 - case.py
 This file describes the dimensions of the pygame window and the type of road/traffic condition to be simulated.
 
-** Simulation directory:** This directory holds files that describe OOP code files.
+**Simulation directory:** This directory holds files that describe OOP code files.
 - car.py
 This code creates an object called car with certain properties and functions that describes the vehicles behavior.
 - road.py
@@ -50,6 +50,7 @@ This code creates an object called road with certain properties and functions th
 This code creates a provision to make traffic lights or damaged road conditions.
 - trafficGenerators.py
 This code decides how traffic is generated in the simulation.
+
 **"draft_2" directory:** It contains all the raw data and results from the simulation experiments.
 
 ## Control Flow of The Program
