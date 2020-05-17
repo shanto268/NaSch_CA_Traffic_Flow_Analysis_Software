@@ -54,18 +54,8 @@ This code decides how traffic is generated in the simulation.
 **"draft_2" directory:** It contains all the raw data and results from the simulation experiments.
 
 ## Control Flow of The Program
-                     .-> car.py  <----> road.py  <-.       <--------.
-                     |                                 |                     |
-             .->[simulation object files(back end)]--> trafficGenerator.py                   .----------------------------> combined_plot_exp1.py
-             |                                   ^                        ^                         /
-     case.py --> nagel.py                                      |                       |----------> data.txt----------------------------> plot_exp1.py
-             |                                   |                |                         \
-             .->[visualization files(front end)] v                        |                          .----------------------------> plot_exp2.py
-             |                 \                        |------------------|
-             |                    |             simulationManager.py
-             |                   |             ^
-             v                     v                 |
-      infoDisplayer.py <------> representation.py /
+
+![control flow](control_flow.png)
 
 ## Installation
 Install the following libraries for python.
