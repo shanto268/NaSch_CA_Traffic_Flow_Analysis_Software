@@ -76,6 +76,6 @@ pip install pygame
 ```
 
 ## Author Comments
-This program is really specific to our research project and I don't believe the running mechanism for this current version should be included since the simulation framework is very precise to fit our needs. I highly recommend you check out this repositoryof mine - [Traffic Analysis and Simulation Software](https://github.com/shanto268/comprehensive_simulation_traffic_analysis_software) to use the framework of this software but for more customized needs.
+This program is really specific to our research project and I don't believe the running mechanism for this current version should be included since the simulation framework is very precise to fit our needs. I highly recommend you check out this repository of mine - [Traffic Analysis and Simulation Software](https://github.com/shanto268/comprehensive_simulation_traffic_analysis_software) to use the framework of this software but for more customized needs.
 
 
