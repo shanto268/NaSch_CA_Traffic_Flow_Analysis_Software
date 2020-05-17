@@ -76,11 +76,11 @@ pip install pygame
 ```
 
 ## Usage
-To simulate experiment 1: 
+To simulate experiment 1: Heterogeneous Dynamics Under Constant Traffic Densities 
 ```bash
 . execute_all_sim.sh
 ```
-To simulate experiment 2: 
+To simulate experiment 2: Equilibrium Relation and Dynamics Under Varying Traffic Densities
 ```bash
 . fd_sim_all.sh
 ```
